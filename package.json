@@ -22,7 +22,7 @@
     "main": "lib/index.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/maoxs2/node-stratum-pool.git"
+        "url": "https://github.com/maoxs2/ts-x-stratum.git"
     },
     "dependencies": {
         "@types/async": "^3.0.3",

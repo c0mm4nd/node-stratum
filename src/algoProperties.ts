@@ -1,5 +1,5 @@
-import multiHashing = require('x-hashing');
-var util = require('./util.js');
+import * as multiHashing from 'x-hashing';
+import * as util from './util.js';
 
 var diff1 = 0x00000000ffff0000000000000000000000000000000000000000000000000000;
 

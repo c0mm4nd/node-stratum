@@ -1,8 +1,8 @@
-import net = require('net');
-import crypto = require('crypto');
-import events = require('events');
+import * as net from 'net';
+import * as crypto from 'crypto';
+import * as events from 'events';
 
-import util = require('./util.js');
+import * as util from './util.js';
 
 
 //Example of p2p in node from TheSeven: http://paste.pm/e54.js

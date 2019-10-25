@@ -1,7 +1,7 @@
-import net = require('net');
-import events = require('events');
+import * as net from 'net';
+import * as events from 'events';
 
-import util = require('./util.js');
+import * as util from './util.js';
 
 
 var SubscriptionCounter = function(){

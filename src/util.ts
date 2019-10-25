@@ -1,4 +1,4 @@
-import crypto = require('crypto');
+import * as crypto from 'crypto';
 import * as bs58 from 'bs58';
 
 export function addressFromEx(exAddress, ripdm160Key){

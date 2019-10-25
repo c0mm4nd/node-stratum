@@ -147,7 +147,7 @@ var myCoin = {
 Create and start new pool with configuration options and authentication function
 
 ```javascript
-var Stratum = require('stratum-pool');
+import * as Stratum from 'ts-x-stratum';
 
 var pool = Stratum.createPool({
 

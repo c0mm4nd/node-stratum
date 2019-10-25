@@ -1,5 +1,5 @@
-import events = require('events');
-import crypto = require('crypto');
+import * as events from 'events';
+import * as crypto from 'crypto';
 
 import * as util from './util';
 import {blockTemplate} from './blockTemplate';
