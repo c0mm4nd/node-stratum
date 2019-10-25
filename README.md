@@ -1,4 +1,4 @@
-node-x-stratum
+ts-x-stratum
 --------
 
 These are just some typescript modules
