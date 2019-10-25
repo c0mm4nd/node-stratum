@@ -1,5 +1,5 @@
 {
-    "name": "x-stratum",
+    "name": "ts-x-stratum",
     "version": "0.1.10",
     "description": "High performance Stratum poolserver in Node.js",
     "keywords": [
@@ -12,9 +12,9 @@
         "litecoin",
         "scrypt"
     ],
-    "homepage": "https://github.com/maoxs2/node-x-stratum",
+    "homepage": "https://github.com/maoxs2/ts-x-stratum",
     "bugs": {
-        "url": "https://github.com/maoxs2/node-x-stratum/issues"
+        "url": "https://github.com/maoxs2/ts-x-stratum/issues"
     },
     "license": "GPL-2.0",
     "author": "Command M",
