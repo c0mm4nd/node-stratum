@@ -5,14 +5,13 @@
 //Gives us global access to everything we need for each hashing algorithm // NO WAY
 // import require('./algoProperties.js');
 
-var pool = require('./pool.js');
+import {Pool} from './pool'
 
 // var daemon = require('./daemon.js');
 // var varDiff = require('./varDiff.js');
 
-var createPool = function(poolOptions, authorizeFn){
-    var newPool = new pool(poolOptions, authorizeFn);
-    return newPool;
+const createPool = function (poolOptions: Object, authorizeFn: Function) {
+    return new Pool(poolOptions, authorizeFn);
 };
 
 export {createPool}

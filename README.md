@@ -78,7 +78,7 @@ Possible options for `algorithm`: *sha256, scrypt, scrypt-jane, scrypt-n, quark,
 skein, groestl, fugue, shavite3, hefty1, qubit, or sha1*.
 
 ```javascript
-var myCoin = {
+const myCoin = {
     "name": "Dogecoin",
     "symbol": "DOGE",
     "algorithm": "scrypt",
@@ -90,15 +90,15 @@ var myCoin = {
        source code as the pchMessageStart variable.
        For example, litecoin mainnet magic: http://git.io/Bi8YFw
        And for litecoin testnet magic: http://git.io/NXBYJA */
-     "peerMagic": "fbc0b6db" //optional
-     "peerMagicTestnet": "fcc1b7dc" //optional
+     "peerMagic": "fbc0b6db", //optional
+     "peerMagicTestnet": "fcc1b7dc", //optional
 };
 ```
 
 If you are using the `scrypt-jane` algorithm there are additional configurations:
 
 ```javascript
-var myCoin = {
+const myCoin = {
     "name": "Freecoin",
     "symbol": "FEC",
     "algorithm": "scrypt-jane",
@@ -110,7 +110,7 @@ var myCoin = {
 
 If you are using the `scrypt-n` algorithm there is an additional configuration:
 ```javascript
-var myCoin = {
+const myCoin = {
     "name": "Execoin",
     "symbol": "EXE",
     "algorithm": "scrypt-n",
@@ -132,7 +132,7 @@ var myCoin = {
 If you are using the `keccak` algorithm there are additional configurations *(The rare `normalHashing` keccak coins
 such as Copperlark and eCoin don't appear to work yet - only the popular ones like Maxcoin are)*:
 ```javascript
-var myCoin = {
+const myCoin = {
     "name": "eCoin",
     "symbol": "ECN",
     "algorithm": "keccak",
@@ -149,7 +149,7 @@ Create and start new pool with configuration options and authentication function
 ```javascript
 import * as Stratum from 'ts-x-stratum';
 
-var pool = Stratum.createPool({
+const pool = Stratum.createPool({
 
     "coin": myCoin,
 

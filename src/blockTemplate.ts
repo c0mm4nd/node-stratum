@@ -1,4 +1,4 @@
-import merkleTree from './merkleTree';
+import MerkleTree from './merkleTree';
 import * as transactions from './transactions';
 import * as util from './util';
 import {diff1} from './algoProperties'
@@ -7,11 +7,11 @@ import {diff1} from './algoProperties'
  * The BlockTemplate class holds a single job.
  * and provides several methods to validate and submit it to the daemon coin
 **/
-export function blockTemplate(jobId, rpcData, poolAddressScript, extraNoncePlaceholder, reward, txMessages, recipients){
+export function BlockTemplate(jobId, rpcData, poolAddressScript, extraNoncePlaceholder, reward, txMessages, recipients){
 
     //private members
 
-    var submits = [];
+    const submits = [];
 
     function getMerkleHashes(steps){
         return steps.map(function(step){
@@ -20,7 +20,7 @@ export function blockTemplate(jobId, rpcData, poolAddressScript, extraNoncePlace
     }
 
     function getTransactionBuffers(txs){
-        var txHashes = txs.map(function(tx){
+        const txHashes = txs.map(function (tx) {
             if (tx.txid !== undefined) {
                 return util.uint256BufferFromHash(tx.txid);
             }
@@ -61,7 +61,7 @@ export function blockTemplate(jobId, rpcData, poolAddressScript, extraNoncePlace
     this.transactionData = Buffer.concat(rpcData.transactions.map(function(tx){
         return new Buffer(tx.data, 'hex');
     }));
-    this.merkleTree = new merkleTree(getTransactionBuffers(rpcData.transactions));
+    this.merkleTree = new MerkleTree(getTransactionBuffers(rpcData.transactions));
     this.merkleBranch = getMerkleHashes(this.merkleTree.steps);
     this.generationTransaction = transactions.CreateGeneration(
         rpcData,
@@ -85,15 +85,15 @@ export function blockTemplate(jobId, rpcData, poolAddressScript, extraNoncePlace
     //https://en.bitcoin.it/wiki/Protocol_specification#Block_Headers
     this.serializeHeader = function(merkleRoot, nTime, nonce){
 
-        var header =  new Buffer(80);
-        var position = 0;
+        let header = new Buffer(80);
+        let position = 0;
         header.write(nonce, position, 4, 'hex');
         header.write(rpcData.bits, position += 4, 4, 'hex');
         header.write(nTime, position += 4, 4, 'hex');
         header.write(merkleRoot, position += 4, 32, 'hex');
         header.write(rpcData.previousblockhash, position += 32, 32, 'hex');
         header.writeUInt32BE(rpcData.version, position + 32);
-        var header = util.reverseBuffer(header);
+        header = util.reverseBuffer(header);
         return header;
     };
 
@@ -113,7 +113,7 @@ export function blockTemplate(jobId, rpcData, poolAddressScript, extraNoncePlace
     };
 
     this.registerSubmit = function(extraNonce1, extraNonce2, nTime, nonce){
-        var submission = extraNonce1 + extraNonce2 + nTime + nonce;
+        const submission = extraNonce1 + extraNonce2 + nTime + nonce;
         if (submits.indexOf(submission) === -1){
             submits.push(submission);
             return true;
@@ -137,4 +137,4 @@ export function blockTemplate(jobId, rpcData, poolAddressScript, extraNoncePlace
         }
         return this.jobParams;
     };
-};
+}

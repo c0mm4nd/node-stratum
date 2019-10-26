@@ -15,14 +15,14 @@ import * as async from 'async';
 function DaemonInterface(daemons, logger){
 
     //private members
-    var _this = this;
+    const _this = this;
     logger = logger || function(severity, message){
         console.log(severity + ': ' + message);
     };
 
 
-    var instances = (function(){
-        for (var i = 0; i < daemons.length; i++)
+    const instances = (function () {
+        for (let i = 0; i < daemons.length; i++)
             daemons[i]['index'] = i;
         return daemons;
     })();
@@ -37,40 +37,39 @@ function DaemonInterface(daemons, logger){
 
     function isOnline(callback){
         cmd('getpeerinfo', [], function(results){
-            var allOnline = results.every(function(result){
+            const allOnline: boolean = results.every(function (result) {
                 return !results.error;
             });
             callback(allOnline);
             if (!allOnline)
                 _this.emit('connectionFailed', results);
-        }, undefined, undefined);
+        }, false, false);
     }
 
 
     function performHttpRequest(instance, jsonData, callback){
-        var options = {
-            hostname: (typeof(instance.host) === 'undefined' ? '127.0.0.1' : instance.host),
-            port    : instance.port,
-            method  : 'POST',
-            auth    : instance.user + ':' + instance.password,
-            headers : {
+        const options = {
+            hostname: (typeof (instance.host) === 'undefined' ? '127.0.0.1' : instance.host),
+            port: instance.port,
+            method: 'POST',
+            auth: instance.user + ':' + instance.password,
+            headers: {
                 'Content-Length': jsonData.length
             }
         };
 
-        var parseJson = function(res, data){
-            var dataJson;
+        const parseJson = function (res, data) {
+            let dataJson;
 
-            if (res.statusCode === 401){
+            if (res.statusCode === 401) {
                 logger('error', 'Unauthorized RPC access - invalid RPC username or password');
                 return;
             }
 
-            try{
+            try {
                 dataJson = JSON.parse(data);
-            }
-            catch(e){
-                if (data.indexOf(':-nan') !== -1){
+            } catch (e) {
+                if (data.indexOf(':-nan') !== -1) {
                     data = data.replace(/:-nan,/g, ":0");
                     parseJson(res, data);
                     return;
@@ -84,13 +83,13 @@ function DaemonInterface(daemons, logger){
                 callback(dataJson.error, dataJson, data);
         };
 
-        var req = http.request(options, function(res) {
-            var data = '';
+        const req = http.request(options, function (res) {
+            let data = '';
             res.setEncoding('utf8');
             res.on('data', function (chunk) {
                 data += chunk;
             });
-            res.on('end', function(){
+            res.on('end', function () {
                 parseJson(res, data);
             });
         });
@@ -117,9 +116,9 @@ function DaemonInterface(daemons, logger){
 
     function batchCmd(cmdArray, callback){
 
-        var requestJson = [];
+        const requestJson = [];
 
-        for (var i = 0; i < cmdArray.length; i++){
+        for (let i = 0; i < cmdArray.length; i++){
             requestJson.push({
                 method: cmdArray[i][0],
                 params: cmdArray[i][1],
@@ -127,7 +126,7 @@ function DaemonInterface(daemons, logger){
             });
         }
 
-        var serializedRequest = JSON.stringify(requestJson);
+        const serializedRequest = JSON.stringify(requestJson);
 
         performHttpRequest(instances[0], serializedRequest, function(error, result){
             callback(error, result);
@@ -138,15 +137,15 @@ function DaemonInterface(daemons, logger){
     /* Sends a JSON RPC (http://json-rpc.org/wiki/specification) command to every configured daemon.
        The callback function is fired once with the result from each daemon unless streamResults is
        set to true. */
-    function cmd(method, params, callback, streamResults, returnRawData){
+    function cmd(method: string, params: any, callback: Function, streamResults: boolean, returnRawData: boolean){
 
-        var results = [];
+        const results = [];
 
         async.each(instances, function(instance, eachCallback){
 
-            var itemFinished = function(error, result, data){
+            let itemFinished = function (error, result, data) {
 
-                var returnObj = {
+                const returnObj = {
                     data: undefined,
                     error: error,
                     response: (result || {}).result,
@@ -156,10 +155,11 @@ function DaemonInterface(daemons, logger){
                 if (streamResults) callback(returnObj);
                 else results.push(returnObj);
                 eachCallback();
-                itemFinished = function(){};
+                itemFinished = function () {
+                };
             };
 
-            var requestJson = JSON.stringify({
+            const requestJson = JSON.stringify({
                 method: method,
                 params: params,
                 id: Date.now() + Math.floor(Math.random() * 10)

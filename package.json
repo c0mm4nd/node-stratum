@@ -27,6 +27,7 @@
     "dependencies": {
         "@types/async": "^3.0.3",
         "@types/bs58": "^4.0.0",
+        "@types/node": "^12.11.7",
         "async": "^3.1.0",
         "bs58": "^4.0.1",
         "bs58check": "^2.1.2",

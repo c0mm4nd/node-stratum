@@ -1,25 +1,24 @@
+import * as util from './util.js'
+
 /*
 
 Ported from https://github.com/slush0/stratum-mining/blob/master/lib/merkletree.py
 
  */
 
-var util = require('./util.js');
-
 export function MerkleTree(data){
 
     function merkleJoin(h1, h2){
-        var joined = Buffer.concat([h1, h2]);
-        var dhashed = util.sha256d(joined);
-        return dhashed;
+        const joined = Buffer.concat([h1, h2]);
+        return util.sha256d(joined);
     }
 
     function calculateSteps(data){
-        var L = data;
-        var steps = [];
-        var PreL = [null];
-        var StartL = 2;
-        var Ll = L.length;
+        let L = data;
+        const steps = [];
+        const PreL = [null];
+        const StartL = 2;
+        let Ll = L.length;
 
         if (Ll > 1){
             while (true){
@@ -32,8 +31,8 @@ export function MerkleTree(data){
                 if (Ll % 2)
                     L.push(L[L.length - 1]);
 
-                var Ld = [];
-                var r = util.range(StartL, Ll, 2);
+                const Ld = [];
+                const r = util.range(StartL, Ll, 2);
                 r.forEach(function(i){
                     Ld.push(merkleJoin(L[i], L[i + 1]));
                 });

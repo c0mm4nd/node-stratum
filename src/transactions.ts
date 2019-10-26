@@ -1,5 +1,4 @@
-var util = require('./util.js');
-
+import * as util from './util.js'
 
 /*
 function Transaction(params){
@@ -123,61 +122,64 @@ For some (probably outdated and incorrect) documentation about whats kinda going
 see: https://en.bitcoin.it/wiki/Protocol_specification#tx
  */
 
-var generateOutputTransactions = function(poolRecipient, recipients, rpcData){
+const generateOutputTransactions = function (poolRecipient, recipients, rpcData) {
 
-    var reward = rpcData.coinbasevalue;
-    var rewardToPool = reward;
+    let payeeScript;
+    let payeeReward = 0;
+    let reward = rpcData.coinbasevalue;
+    let rewardToPool = reward;
 
-    var txOutputBuffers = [];
+    const txOutputBuffers = [];
 
 
+    /* Dash 12.1 */
+    if (rpcData.masternode && rpcData.superblock) {
+        if (rpcData.masternode.payee) {
 
-/* Dash 12.1 */
-if (rpcData.masternode && rpcData.superblock) {
-    if (rpcData.masternode.payee) {
-        var payeeReward = 0;
-
-        payeeReward = rpcData.masternode.amount;
-        reward -= payeeReward;
-        rewardToPool -= payeeReward;
-
-        var payeeScript = util.addressToScript(rpcData.masternode.payee);
-        txOutputBuffers.push(Buffer.concat([
-            util.packInt64LE(payeeReward),
-            util.varIntBuffer(payeeScript.length),
-            payeeScript
-        ]));
-    } else if (rpcData.superblock.length > 0) {
-        for(var i in rpcData.superblock){
-            var payeeReward = 0;
-
-            payeeReward = rpcData.superblock[i].amount;
+            payeeReward = rpcData.masternode.amount;
             reward -= payeeReward;
             rewardToPool -= payeeReward;
 
-            var payeeScript = util.addressToScript(rpcData.superblock[i].payee);
+            payeeScript = util.addressToScript(rpcData.masternode.payee);
             txOutputBuffers.push(Buffer.concat([
                 util.packInt64LE(payeeReward),
                 util.varIntBuffer(payeeScript.length),
                 payeeScript
             ]));
+        } else if (rpcData.superblock.length > 0) {
+            for (const i in rpcData.superblock) {
+                if (!rpcData.superblock.hasOwnProperty(i)){
+                    continue
+                }
+                payeeReward = 0;
+
+                payeeReward = rpcData.superblock[i].amount;
+                reward -= payeeReward;
+                rewardToPool -= payeeReward;
+
+                payeeScript = util.addressToScript(rpcData.superblock[i].payee);
+                txOutputBuffers.push(Buffer.concat([
+                    util.packInt64LE(payeeReward),
+                    util.varIntBuffer(payeeScript.length),
+                    payeeScript
+                ]));
+            }
         }
     }
-}
 
-if (rpcData.payee) {
-    var payeeReward = 0;
+    if (rpcData.payee) {
+        payeeReward = 0;
 
-    if (rpcData.payee_amount) {
-        payeeReward = rpcData.payee_amount;
-    } else {
-        payeeReward = Math.ceil(reward / 5);
-    }
+        if (rpcData.payee_amount) {
+            payeeReward = rpcData.payee_amount;
+        } else {
+            payeeReward = Math.ceil(reward / 5);
+        }
 
         reward -= payeeReward;
         rewardToPool -= payeeReward;
 
-        var payeeScript = util.addressToScript(rpcData.payee);
+        payeeScript = util.addressToScript(rpcData.payee);
         txOutputBuffers.push(Buffer.concat([
             util.packInt64LE(payeeReward),
             util.varIntBuffer(payeeScript.length),
@@ -186,9 +188,8 @@ if (rpcData.payee) {
     }
 
 
-
-    for (let i = 0; i < recipients.length; i++){
-        var recipientReward = Math.floor(recipients[i].percent * reward);
+    for (let i = 0; i < recipients.length; i++) {
+        const recipientReward = Math.floor(recipients[i].percent * reward);
         rewardToPool -= recipientReward;
 
         txOutputBuffers.push(Buffer.concat([
@@ -204,8 +205,8 @@ if (rpcData.payee) {
         util.varIntBuffer(poolRecipient.length),
         poolRecipient
     ]));
-    
-    if (rpcData.default_witness_commitment !== undefined){
+
+    if (rpcData.default_witness_commitment !== undefined) {
         let witness_commitment = new Buffer(rpcData.default_witness_commitment, 'hex');
         txOutputBuffers.unshift(Buffer.concat([
             util.packInt64LE(0),
@@ -224,35 +225,35 @@ if (rpcData.payee) {
 
 export function CreateGeneration(rpcData, publicKey, extraNoncePlaceholder, reward, txMessages, recipients){
 
-    var txInputsCount = 1;
-    var txOutputsCount = 1;
-    var txVersion = txMessages === true ? 2 : 1;
-    var txLockTime = 0;
+    const txInputsCount = 1;
+    const txOutputsCount = 1;
+    const txVersion = txMessages === true ? 2 : 1;
+    const txLockTime = 0;
 
-    var txInPrevOutHash = "";
-    var txInPrevOutIndex = Math.pow(2, 32) - 1;
-    var txInSequence = 0;
+    const txInPrevOutHash = "";
+    const txInPrevOutIndex = Math.pow(2, 32) - 1;
+    const txInSequence = 0;
 
     //Only required for POS coins
-    var txTimestamp = reward === 'POS' ?
+    const txTimestamp = reward === 'POS' ?
         util.packUInt32LE(rpcData.curtime) : new Buffer([]);
 
     //For coins that support/require transaction comments
-    var txComment = txMessages === true ?
+    const txComment = txMessages === true ?
         util.serializeString('https://github.com/zone117x/node-stratum') :
         new Buffer([]);
 
 
-    var scriptSigPart1 = Buffer.concat([
+    const scriptSigPart1 = Buffer.concat([
         util.serializeNumber(rpcData.height),
         new Buffer(rpcData.coinbaseaux.flags, 'hex'),
         util.serializeNumber(Date.now() / 1000 | 0),
         new Buffer([extraNoncePlaceholder.length])
     ]);
 
-    var scriptSigPart2 = util.serializeString('/nodeStratum/');
+    const scriptSigPart2 = util.serializeString('/nodeStratum/');
 
-    var p1 = Buffer.concat([
+    const p1 = Buffer.concat([
         util.packUInt32LE(txVersion),
         txTimestamp,
 
@@ -272,9 +273,9 @@ export function CreateGeneration(rpcData, publicKey, extraNoncePlaceholder, rewa
      */
 
 
-    var outputTransactions = generateOutputTransactions(publicKey, recipients, rpcData);
+    const outputTransactions = generateOutputTransactions(publicKey, recipients, rpcData);
 
-    var p2 = Buffer.concat([
+    const p2 = Buffer.concat([
         scriptSigPart2,
         util.packUInt32LE(txInSequence),
         //end transaction input
@@ -289,4 +290,4 @@ export function CreateGeneration(rpcData, publicKey, extraNoncePlaceholder, rewa
 
     return [p1, p2];
 
-};
+}

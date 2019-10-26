@@ -7,14 +7,14 @@ import * as util from './util.js';
 
 //Example of p2p in node from TheSeven: http://paste.pm/e54.js
 
-var fixedLenStringBuffer = function(s, len) {
-    var buff = new Buffer(len);
+const fixedLenStringBuffer = function (s, len) {
+    let buff = new Buffer(len);
     buff.fill(0);
     buff.write(s);
     return buff;
 };
 
-var commandStringBuffer = function (s) {
+const commandStringBuffer = function (s) {
     return fixedLenStringBuffer(s, 12);
 };
 
@@ -23,50 +23,49 @@ var commandStringBuffer = function (s) {
    - amount of bytes to read
    - preRead argument can be used to set start with an existing data buffer
    - callback returns 1) data buffer and 2) lopped/over-read data */
-var readFlowingBytes = function (stream, amount, preRead, callback) {
+const readFlowingBytes = function (stream, amount, preRead, callback) {
 
-    var buff = preRead ? preRead : new Buffer([]);
+    let buff = preRead ? preRead : new Buffer([]);
 
-    var readData = function (data) {
+    const readData = function (data) {
         buff = Buffer.concat([buff, data]);
         if (buff.length >= amount) {
-            var returnData = buff.slice(0, amount);
-            var lopped = buff.length > amount ? buff.slice(amount) : null;
+            const returnData = buff.slice(0, amount);
+            const lopped = buff.length > amount ? buff.slice(amount) : null;
             callback(returnData, lopped);
-        }
-        else
+        } else
             stream.once('data', readData);
     };
 
     readData(new Buffer([]));
 };
 
-export function peer(options) {
+export function Peer(options) {
 
-    var _this = this;
-    var client;
-    var magic = new Buffer(options.testnet ? options.coin.peerMagicTestnet : options.coin.peerMagic, 'hex');
-    var magicInt = magic.readUInt32LE(0);
-    var verack = false;
-    var validConnectionConfig = true;
+    const _this = this;
+    let client;
+    const magic = new Buffer(options.testnet ? options.coin.peerMagicTestnet : options.coin.peerMagic, 'hex');
+    const magicInt = magic.readUInt32LE(0);
+    let verack = false;
+    let validConnectionConfig = true;
 
     //https://en.bitcoin.it/wiki/Protocol_specification#Inventory_Vectors
-    var invCodes = {
+    const invCodes = {
         error: 0,
         tx: 1,
         block: 2
     };
-    
-    var networkServices = new Buffer('0100000000000000', 'hex'); //NODE_NETWORK services (value 1 packed as uint64)
-    var emptyNetAddress = new Buffer('010000000000000000000000000000000000ffff000000000000', 'hex');
-    var userAgent = util.varStringBuffer('/node-stratum/');
-    var blockStartHeight = new Buffer('00000000', 'hex'); //block start_height, can be empty
+
+    const networkServices = new Buffer('0100000000000000', 'hex'); //NODE_NETWORK services (value 1 packed as uint64)
+    const emptyNetAddress = new Buffer('010000000000000000000000000000000000ffff000000000000', 'hex');
+    const userAgent = util.varStringBuffer('/node-stratum/');
+    const blockStartHeight = new Buffer('00000000', 'hex'); //block start_height, can be empty
 
     //If protocol version is new enough, add do not relay transactions flag byte, outlined in BIP37
     //https://github.com/bitcoin/bips/blob/master/bip-0037.mediawiki#extensions-to-existing-messages
-    var relayTransactions = options.p2p.disableTransactions === true ? new Buffer([false]) : new Buffer([]);
+    const relayTransactions = options.p2p.disableTransactions === true ? new Buffer([false]) : new Buffer([]);
 
-    var commands = {
+    const commands = {
         version: commandStringBuffer('version'),
         inv: commandStringBuffer('inv'),
         verack: commandStringBuffer('verack'),
@@ -114,10 +113,10 @@ export function peer(options) {
 
     function SetupMessageParser(client) {
 
-        var beginReadingMessage = function (preRead) {
+        const beginReadingMessage = function (preRead) {
 
             readFlowingBytes(client, 24, preRead, function (header, lopped) {
-                var msgMagic = header.readUInt32LE(0);
+                const msgMagic = header.readUInt32LE(0);
                 if (msgMagic !== magicInt) {
                     _this.emit('error', 'bad magic number from peer');
                     while (header.readUInt32LE(0) !== magicInt && header.length >= 4) {
@@ -130,9 +129,9 @@ export function peer(options) {
                     }
                     return;
                 }
-                var msgCommand = header.slice(4, 16).toString();
-                var msgLength = header.readUInt32LE(16);
-                var msgChecksum = header.readUInt32LE(20);
+                const msgCommand = header.slice(4, 16).toString();
+                const msgLength = header.readUInt32LE(16);
+                const msgChecksum = header.readUInt32LE(20);
                 readFlowingBytes(client, msgLength, lopped, function (payload, lopped) {
                     if (util.sha256d(payload).readUInt32LE(0) !== msgChecksum) {
                         _this.emit('error', 'bad payload - failed checksum');
@@ -152,7 +151,7 @@ export function peer(options) {
     //Parsing inv message https://en.bitcoin.it/wiki/Protocol_specification#inv
     function HandleInv(payload) {
         //sloppy varint decoding
-        var count = payload.readUInt8(0);
+        let count = payload.readUInt8(0);
         payload = payload.slice(1);
         if (count >= 0xfd)
         {
@@ -164,10 +163,10 @@ export function peer(options) {
                 case invCodes.error:
                     break;
                 case invCodes.tx:
-                    var tx = payload.slice(4, 36).toString('hex');
+                    const tx = payload.slice(4, 36).toString('hex');
                     break;
                 case invCodes.block:
-                    var block = payload.slice(4, 36).toString('hex');
+                    const block = payload.slice(4, 36).toString('hex');
                     _this.emit('blockFound', block);
                     break;
             }
@@ -195,7 +194,7 @@ export function peer(options) {
 
     //Message structure defined at: https://en.bitcoin.it/wiki/Protocol_specification#Message_structure
     function SendMessage(command, payload) {
-        var message = Buffer.concat([
+        const message = Buffer.concat([
             magic,
             command,
             util.packUInt32LE(payload.length),
@@ -207,7 +206,7 @@ export function peer(options) {
     }
 
     function SendVersion() {
-        var payload = Buffer.concat([
+        const payload = Buffer.concat([
             util.packUInt32LE(options.protocolVersion),
             networkServices,
             util.packInt64LE(Date.now() / 1000 | 0),
@@ -220,7 +219,6 @@ export function peer(options) {
         ]);
         SendMessage(commands.version, payload);
     }
+}
 
-};
-
-peer.prototype.__proto__ = events.EventEmitter.prototype;
+Peer.prototype.__proto__ = events.EventEmitter.prototype;
