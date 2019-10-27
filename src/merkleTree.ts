@@ -6,14 +6,22 @@ Ported from https://github.com/slush0/stratum-mining/blob/master/lib/merkletree.
 
  */
 
-export function MerkleTree(data){
+export class MerkleTree {
+    data: Buffer[];
+    steps: Buffer[];
 
-    function merkleJoin(h1, h2){
+    constructor(data: Buffer[]) {
+        this.data = data;
+        this.steps = this.calculateSteps(data);
+    }
+
+    merkleJoin(h1: Buffer, h2: Buffer): Buffer {
         const joined = Buffer.concat([h1, h2]);
         return util.sha256d(joined);
     }
 
-    function calculateSteps(data){
+    calculateSteps(data: Buffer[]): Buffer[] {
+        const _this = this;
         let L = data;
         const steps = [];
         const PreL = [null];
@@ -34,27 +42,21 @@ export function MerkleTree(data){
                 const Ld = [];
                 const r = util.range(StartL, Ll, 2);
                 r.forEach(function(i){
-                    Ld.push(merkleJoin(L[i], L[i + 1]));
+                    Ld.push(_this.merkleJoin(L[i], L[i + 1]));
                 });
                 L = PreL.concat(Ld);
                 Ll = L.length;
             }
         }
-       return steps;
+        return steps;
     }
 
-    this.data = data;
-    this.steps = calculateSteps(data);
-
-}
-
-MerkleTree.prototype = {
-    withFirst: function(f){
+    withFirst(f: Buffer): Buffer {
         this.steps.forEach(function(s){
             f = util.sha256d(Buffer.concat([f, s]));
         });
         return f;
     }
-};
+}
 
 export default MerkleTree

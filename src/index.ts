@@ -10,8 +10,6 @@ import {Pool} from './pool'
 // var daemon = require('./daemon.js');
 // var varDiff = require('./varDiff.js');
 
-const createPool = function (poolOptions: Object, authorizeFn: Function) {
-    return new Pool(poolOptions, authorizeFn);
-};
-
-export {createPool}
+export function createPool(poolOption: poolOption, authorizeFn: Function): Object {
+    return new Pool(poolOption, authorizeFn);
+}

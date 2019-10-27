@@ -1,4 +1,4 @@
-import * as events from 'events';
+import {EventEmitter} from 'events';
 
 /*
 
@@ -7,8 +7,7 @@ Vardiff ported from stratum-mining share-limiter
 
  */
 
-
-function RingBuffer(maxSize){
+function RingBuffer(maxSize: number): void {
     let data = [];
     let cursor = 0;
     let isFull = false;
@@ -43,44 +42,59 @@ function RingBuffer(maxSize){
 }
 
 // Truncate a number to a fixed amount of decimal places
-function toFixed(num, len) {
+function toFixed(num: number, len: number): number {
     return parseFloat(num.toFixed(len));
 }
 
-export function VarDiff(port, varDiffOptions){
-    const _this = this;
+type varDiffOption = {
+    maxDiff: number;
+    minDiff: number;
+    x2mode: boolean;
+    targetTime: number;
+    variancePercent: number;
+    retargetTime: number;
+}
 
-    let bufferSize, tMin, tMax;
+export class VarDiff extends EventEmitter {
+    private bufferSize: number;
+    private tMin: number;
+    private tMax: number;
+    private port: any;
+    private variance: number;
+    private options: varDiffOption;
 
-    //if (!varDiffOptions) return;
+    constructor(port: any, varDiffOptions: varDiffOption) {
+        super();
+        this.port = port;
+        this.options = varDiffOptions;
 
-    const variance = varDiffOptions.targetTime * (varDiffOptions.variancePercent / 100);
+        this.variance = varDiffOptions.targetTime * (varDiffOptions.variancePercent / 100);
 
-    bufferSize = varDiffOptions.retargetTime / varDiffOptions.targetTime * 4;
-    tMin       = varDiffOptions.targetTime - variance;
-    tMax       = varDiffOptions.targetTime + variance;
+        this.bufferSize = varDiffOptions.retargetTime / varDiffOptions.targetTime * 4;
+        this.tMin = varDiffOptions.targetTime - this.variance;
+        this.tMax = varDiffOptions.targetTime + this.variance;
+    }
 
-
-    this.manageClient = function(client){
+    manageClient(client) {
+        const _this = this;
         const stratumPort = client.socket.localPort;
 
-        if (stratumPort != port) {
+        if (stratumPort != this.port) {
             console.error("Handling a client which is not of this vardiff?");
         }
-        const options = varDiffOptions;
+
 
         let lastTs;
         let lastRtc;
         let timeBuffer;
 
         client.on('submit', function(){
-
             const ts = (Date.now() / 1000) | 0;
 
             if (!lastRtc){
-                lastRtc = ts - options.retargetTime / 2;
+                lastRtc = ts - _this.options.retargetTime / 2;
                 lastTs = ts;
-                timeBuffer = new RingBuffer(bufferSize);
+                timeBuffer = new RingBuffer(_this.bufferSize);
                 return;
             }
 
@@ -89,25 +103,25 @@ export function VarDiff(port, varDiffOptions){
             timeBuffer.append(sinceLast);
             lastTs = ts;
 
-            if ((ts - lastRtc) < options.retargetTime && timeBuffer.size() > 0)
+            if ((ts - lastRtc) < _this.options.retargetTime && timeBuffer.size() > 0)
                 return;
 
             lastRtc = ts;
             const avg = timeBuffer.avg();
-            let ddiff = options.targetTime / avg;
+            let ddiff = _this.options.targetTime / avg;
 
-            if (avg > tMax && client.difficulty > options.minDiff) {
-                if (options.x2mode) {
+            if (avg > _this.tMax && client.difficulty > _this.options.minDiff) {
+                if (_this.options.x2mode) {
                     ddiff = 0.5;
                 }
-                if (ddiff * client.difficulty < options.minDiff) {
-                    ddiff = options.minDiff / client.difficulty;
+                if (ddiff * client.difficulty < _this.options.minDiff) {
+                    ddiff = _this.options.minDiff / client.difficulty;
                 }
-            } else if (avg < tMin) {
-                if (options.x2mode) {
+            } else if (avg < _this.tMin) {
+                if (_this.options.x2mode) {
                     ddiff = 2;
                 }
-                const diffMax = options.maxDiff;
+                const diffMax = _this.options.maxDiff;
                 if (ddiff * client.difficulty > diffMax) {
                     ddiff = diffMax / client.difficulty;
                 }
@@ -120,7 +134,5 @@ export function VarDiff(port, varDiffOptions){
             timeBuffer.clear();
             _this.emit('newDifficulty', client, newDiff);
         });
-    };
+    }
 }
-
-VarDiff.prototype.__proto__ = events.EventEmitter.prototype;

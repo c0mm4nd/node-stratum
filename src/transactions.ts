@@ -122,7 +122,7 @@ For some (probably outdated and incorrect) documentation about whats kinda going
 see: https://en.bitcoin.it/wiki/Protocol_specification#tx
  */
 
-const generateOutputTransactions = function (poolRecipient, recipients, rpcData) {
+const generateOutputTransactions = function (poolRecipient, recipients, rpcData): Buffer {
 
     let payeeScript;
     let payeeReward = 0;
@@ -219,11 +219,10 @@ const generateOutputTransactions = function (poolRecipient, recipients, rpcData)
         util.varIntBuffer(txOutputBuffers.length),
         Buffer.concat(txOutputBuffers)
     ]);
-
 };
 
 
-export function CreateGeneration(rpcData, publicKey, extraNoncePlaceholder, reward, txMessages, recipients){
+export function createGeneration(rpcData, publicKey, extraNoncePlaceholder, reward, txMessages, recipients): [Buffer, Buffer] {
 
     const txInputsCount = 1;
     const txOutputsCount = 1;
@@ -289,5 +288,4 @@ export function CreateGeneration(rpcData, publicKey, extraNoncePlaceholder, rewa
     ]);
 
     return [p1, p2];
-
 }

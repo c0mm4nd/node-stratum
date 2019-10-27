@@ -1,140 +1,161 @@
-import * as events from 'events';
+import {EventEmitter} from 'events';
 import * as crypto from 'crypto';
 
 import * as util from './util';
 import {BlockTemplate} from './blockTemplate';
-import {diff1, algos} from './algoProperties'
+import {algorithms, diff1} from './algoProperties'
 
 //Unique extranonce per subscriber
-const ExtraNonceCounter = function (configInstanceId) {
+class ExtraNonceCounter {
+    size: number;
+    private counter: number;
 
-    const instanceId = configInstanceId || crypto.randomBytes(4).readUInt32LE(0);
-    let counter = instanceId << 27;
+    constructor(configInstanceId: number) {
+        const instanceId = configInstanceId || crypto.randomBytes(4).readUInt32LE(0);
+        this.counter = instanceId << 27;
+        this.size = 4; //bytes
+    }
 
-    this.next = function () {
-        const extraNonce = util.packUInt32BE(Math.abs(counter++));
+    next() {
+        const extraNonce = util.packUInt32BE(Math.abs(this.counter++));
         return extraNonce.toString('hex');
-    };
+    }
+}
 
-    this.size = 4; //bytes
-};
 
 //Unique job per new block template
-const JobCounter = function () {
-    let counter = 0;
+class JobCounter {
+    private counter: number;
 
-    this.next = function () {
-        counter++;
-        if (counter % 0xffff === 0)
-            counter = 1;
+    constructor() {
+        this.counter = 0;
+    }
+
+    next(): string {
+        this.counter++;
+        if (this.counter % 0xffff === 0)
+            this.counter = 1;
         return this.cur();
     };
 
-    this.cur = function () {
-        return counter.toString(16);
+    cur(): string {
+        return this.counter.toString(16);
     };
-};
+}
 
 /**
  * Emits:
  * - newBlock(blockTemplate) - When a new block (previously unknown to the JobManager) is added, use this event to broadcast new jobs
  * - share(shareData, blockHex) - When a worker submits a share. It will have blockHex if a block was found
 **/
-export function JobManager(options){
 
+export class JobManager extends EventEmitter {
+    private jobCounter: JobCounter;
+    private shareMultiplier: number;
+    private extraNonceCounter: ExtraNonceCounter;
+    private extraNoncePlaceholder: Buffer;
+    private extraNonce2Size: number;
+    private validJobs: {};
+    private currentJob: {
+        rpcData: any;
+    };
+    private hashDigest: any;
+    private coinbaseHasher: (buffer: Buffer) => Buffer;
+    private blockHasher: (...args) => Buffer;
+    private options: poolOption;
 
-    //private members
+    constructor(options: poolOption) {
+        super();
+        const _this = this;
+        this.options = options;
+        this.jobCounter = new JobCounter();
 
-    const _this = this;
-    const jobCounter = new JobCounter();
+        this.shareMultiplier = algorithms[options.coin.algorithm].multiplier;
 
-    const shareMultiplier = algos[options.coin.algorithm].multiplier;
+        //public members
 
-    //public members
+        this.extraNonceCounter = new ExtraNonceCounter(options.instanceId);
+        this.extraNoncePlaceholder = new Buffer('f000000ff111111f', 'hex');
+        this.extraNonce2Size = this.extraNoncePlaceholder.length - this.extraNonceCounter.size;
 
-    this.extraNonceCounter = new ExtraNonceCounter(options.instanceId);
-    this.extraNoncePlaceholder = new Buffer('f000000ff111111f', 'hex');
-    this.extraNonce2Size = this.extraNoncePlaceholder.length - this.extraNonceCounter.size;
+        this.currentJob = undefined;
+        this.validJobs = {};
 
-    this.currentJob = undefined;
-    this.validJobs = {};
+        this.hashDigest = algorithms[options.coin.algorithm].hash(options.coin);
 
-    const hashDigest = algos[options.coin.algorithm].hash(options.coin);
-
-    const coinbaseHasher = (function () {
-        switch (options.coin.algorithm) {
-            case 'keccak':
-            case 'fugue':
-            case 'groestl':
-                if (options.coin.normalHashing === true)
+        this.coinbaseHasher = (function (): (buffer: Buffer) => Buffer {
+            switch (options.coin.algorithm) {
+                case 'keccak':
+                case 'fugue':
+                case 'groestl':
+                    if (options.coin.normalHashing === true)
+                        return util.sha256d;
+                    else
+                        return util.sha256;
+                default:
                     return util.sha256d;
-                else
-                    return util.sha256;
-            default:
-                return util.sha256d;
-        }
-    })();
+            }
+        })();
 
-
-    const blockHasher = (function () {
-        switch (options.coin.algorithm) {
-            case 'scrypt':
-                if (options.coin.reward === 'POS') {
-                    return function (...args) {
-                        return util.reverseBuffer(hashDigest.apply(this, args));
+        this.blockHasher = (function (): (...args) => Buffer {
+            switch (options.coin.algorithm) {
+                case 'scrypt':
+                    if (options.coin.reward === 'POS') {
+                        return function (...args): Buffer {
+                            return util.reverseBuffer(_this.hashDigest.apply(this, args));
+                        };
+                    }
+                    break;
+                case 'scrypt-jane':
+                    if (options.coin.reward === 'POS') {
+                        return function (...args): Buffer {
+                            return util.reverseBuffer(_this.hashDigest.apply(this, args));
+                        };
+                    }
+                    break;
+                case 'scrypt-n':
+                    return function (...args): Buffer {
+                        return util.reverseBuffer(util.sha256d(args[0]));
                     };
-                }
-                break;
-            case 'scrypt-jane':
-                if (options.coin.reward === 'POS') {
-                    return function (...args) {
-                        return util.reverseBuffer(hashDigest.apply(this, args));
+
+                default:
+                    return function (...args): Buffer {
+                        return util.reverseBuffer(_this.hashDigest.apply(this, args));
                     };
-                }
-                break;
-            case 'scrypt-n':
-                return function (...args) {
-                    return util.reverseBuffer(util.sha256d(args[0]));
-                };
+            }
+        })();
+    }
 
-            default:
-                return function (...args) {
-                    return util.reverseBuffer(hashDigest.apply(this, args));
-                };
-        }
-    })();
-
-    this.updateCurrentJob = function(rpcData){
+    updateCurrentJob(rpcData): void {
 
         const tmpBlockTemplate = new BlockTemplate(
-            jobCounter.next(),
+            this.jobCounter.next(),
             rpcData,
-            options.poolAddressScript,
-            _this.extraNoncePlaceholder,
-            options.coin.reward,
-            options.coin.txMessages,
-            options.recipients
+            this.options.poolAddressScript,
+            this.extraNoncePlaceholder,
+            this.options.coin.reward,
+            this.options.coin.txMessages,
+            this.options.recipients
         );
 
-        _this.currentJob = tmpBlockTemplate;
+        this.currentJob = tmpBlockTemplate;
 
-        _this.emit('updatedBlock', tmpBlockTemplate, true);
+        this.emit('updatedBlock', tmpBlockTemplate, true);
 
-        _this.validJobs[tmpBlockTemplate.jobId] = tmpBlockTemplate;
+        this.validJobs[tmpBlockTemplate.jobId] = tmpBlockTemplate;
 
     };
 
-    //returns true if processed a new block
-    this.processTemplate = function(rpcData){
+    processTemplate(rpcData): boolean {
 
         /* Block is new if A) its the first block we have seen so far or B) the blockhash is different and the
            block height is greater than the one we have */
-        let isNewBlock = typeof (_this.currentJob) === 'undefined';
-        if  (!isNewBlock && _this.currentJob.rpcData.previousblockhash !== rpcData.previousblockhash){
+        let isNewBlock: boolean = typeof (this.currentJob) == 'undefined';
+        if (!isNewBlock && this.currentJob.rpcData.previousblockhash !== rpcData.previousblockhash) {
             isNewBlock = true;
 
             //If new block is outdated/out-of-sync than return
-            if (rpcData.height < _this.currentJob.rpcData.height)
+            if (rpcData.height < this.currentJob.rpcData.height)
                 return false;
         }
 
@@ -142,19 +163,19 @@ export function JobManager(options){
 
 
         const tmpBlockTemplate = new BlockTemplate(
-            jobCounter.next(),
+            this.jobCounter.next(),
             rpcData,
-            options.poolAddressScript,
-            _this.extraNoncePlaceholder,
-            options.coin.reward,
-            options.coin.txMessages,
-            options.recipients
+            this.options.poolAddressScript,
+            this.extraNoncePlaceholder,
+            this.options.coin.reward,
+            this.options.coin.txMessages,
+            this.options.recipients
         );
 
         this.currentJob = tmpBlockTemplate;
 
         this.validJobs = {};
-        _this.emit('newBlock', tmpBlockTemplate);
+        this.emit('newBlock', tmpBlockTemplate);
 
         this.validJobs[tmpBlockTemplate.jobId] = tmpBlockTemplate;
 
@@ -162,8 +183,9 @@ export function JobManager(options){
 
     };
 
-    this.processShare = function(jobId, previousDifficulty, difficulty, extraNonce1, extraNonce2, nTime, nonce, ipAddress, port, workerName){
-        const shareError = function (error) {
+    processShare(jobId: string, previousDifficulty: number, difficulty: number, extraNonce1: string, extraNonce2: string, nTime: string, nonce: Buffer, ipAddress: any, port: any, workerName: any): { result?: boolean; blockHash?: string; error: [number, string] } {
+        const _this = this;
+        const shareError = function (error: [number, string]): { error: [number, string]; } {
             _this.emit('share', {
                 job: jobId,
                 ip: ipAddress,
@@ -171,7 +193,7 @@ export function JobManager(options){
                 difficulty: difficulty,
                 error: error[1]
             });
-            return {error: error, result: null};
+            return {error: error};
         };
 
         const submitTime = Date.now() / 1000 | 0;
@@ -181,7 +203,7 @@ export function JobManager(options){
 
         const job = this.validJobs[jobId];
 
-        if (typeof job === 'undefined' || job.jobId != jobId ) {
+        if (typeof job == 'undefined' || job.jobId != jobId) {
             return shareError([21, 'job not found']);
         }
 
@@ -207,34 +229,34 @@ export function JobManager(options){
         const extraNonce2Buffer = new Buffer(extraNonce2, 'hex');
 
         const coinbaseBuffer = job.serializeCoinbase(extraNonce1Buffer, extraNonce2Buffer);
-        const coinbaseHash = coinbaseHasher(coinbaseBuffer);
+        const coinbaseHash = this.coinbaseHasher(coinbaseBuffer);
 
         const merkleRoot = util.reverseBuffer(job.merkleTree.withFirst(coinbaseHash)).toString('hex');
 
         const headerBuffer = job.serializeHeader(merkleRoot, nTime, nonce);
-        const headerHash = hashDigest(headerBuffer, nTimeInt);
+        const headerHash = this.hashDigest(headerBuffer, nTimeInt);
         const headerBigNum = headerHash.readUInt32LE(0);
 
         let blockHashInvalid;
         let blockHash;
         let blockHex;
 
-        const shareDiff = diff1 / headerBigNum.toNumber() * shareMultiplier;
+        const shareDiff = diff1 / headerBigNum.toNumber() * this.shareMultiplier;
 
-        const blockDiffAdjusted = job.difficulty * shareMultiplier;
+        const blockDiffAdjusted = job.difficulty * this.shareMultiplier;
 
         //Check if share is a block candidate (matched network difficulty)
         if (job.target.ge(headerBigNum)){
             blockHex = job.serializeBlock(headerBuffer, coinbaseBuffer).toString('hex');
-            if (options.coin.algorithm === 'blake' || options.coin.algorithm === 'neoscrypt') {                
+            if (this.options.coin.algorithm === 'blake' || this.options.coin.algorithm === 'neoscrypt') {
                 blockHash = util.reverseBuffer(util.sha256d(headerBuffer)).toString('hex');
             }
             else {
-            	blockHash = blockHasher(headerBuffer, nTime).toString('hex');
+                blockHash = this.blockHasher(headerBuffer, nTime).toString('hex');
             }
         }
         else {
-            if (options.emitInvalidBlockHashes)
+            if (this.options.emitInvalidBlockHashes)
                 blockHashInvalid = util.reverseBuffer(util.sha256d(headerBuffer)).toString('hex');
 
             //Check if share didn't reached the miner's difficulty)
@@ -269,6 +291,5 @@ export function JobManager(options){
 
         return {result: true, error: null, blockHash: blockHash};
     };
-}
 
-JobManager.prototype.__proto__ = events.EventEmitter.prototype;
+}

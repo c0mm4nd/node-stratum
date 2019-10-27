@@ -1,7 +1,7 @@
 import * as crypto from 'crypto';
 import * as bs58 from 'bs58';
 
-export function addressFromEx(exAddress, ripmd160Key){
+export function addressFromEx(exAddress: string, ripmd160Key: string): string {
     try {
         const versionByte = getVersionByte(exAddress);
         const addrBase = Buffer.concat([versionByte, new Buffer(ripmd160Key, 'hex')]);
@@ -14,38 +14,37 @@ export function addressFromEx(exAddress, ripmd160Key){
     }
 }
 
-export function getVersionByte(addr){
+export function getVersionByte(addr: string): Buffer {
     return bs58.decode(addr).slice(0, 1);
 }
 
-export function sha256(buffer){
+export function sha256(buffer: Buffer) {
     const hash1 = crypto.createHash('sha256');
     hash1.update(buffer);
     return hash1.digest();
 }
 
-export function sha256d(buffer){
+export function sha256d(buffer: Buffer): Buffer {
     return sha256(sha256(buffer));
 }
 
-export function reverseBuffer(buff){
+export function reverseBuffer(buff: Buffer): Buffer {
     const reversed = new Buffer(buff.length);
     for (let i = buff.length - 1; i >= 0; i--)
         reversed[buff.length - i - 1] = buff[i];
     return reversed;
 }
 
-export function reverseHex(hex){
+export function reverseHex(hex: string): string {
     return reverseBuffer(new Buffer(hex, 'hex')).toString('hex');
 }
 
-export function reverseByteOrder (buff){
+export function reverseByteOrder(buff: Buffer): Buffer {
     for (let i = 0; i < 8; i++) buff.writeUInt32LE(buff.readUInt32BE(i * 4), i * 4);
     return reverseBuffer(buff);
 }
 
-export function uint256BufferFromHash(hex){
-
+export function uint256BufferFromHash(hex: string): Buffer {
     let fromHex = new Buffer(hex, 'hex');
 
     if (fromHex.length != 32){
@@ -58,7 +57,7 @@ export function uint256BufferFromHash(hex){
     return reverseBuffer(fromHex);
 }
 
-export function hexFromReversedBuffer(buffer){
+export function hexFromReversedBuffer(buffer: Buffer): string {
     return reverseBuffer(buffer).toString('hex');
 }
 
@@ -67,7 +66,7 @@ export function hexFromReversedBuffer(buffer){
 Defined in bitcoin protocol here:
  https://en.bitcoin.it/wiki/Protocol_specification#Variable_length_integer
  */
-export function varIntBuffer(n){
+export function varIntBuffer(n: number): Buffer {
     let buff;
     if (n < 0xfd)
         return new Buffer([n]);
@@ -91,7 +90,7 @@ export function varIntBuffer(n){
     }
 }
 
-export function varStringBuffer(string){
+export function varStringBuffer(string: string): Buffer {
     const strBuff = new Buffer(string);
     return Buffer.concat([varIntBuffer(strBuff.length), strBuff]);
 }
@@ -102,7 +101,7 @@ export function varStringBuffer(string){
 Used to format height and date when putting into script signature:
  https://en.bitcoin.it/wiki/Script
  */
-export function serializeNumber(n){
+export function serializeNumber(n: number): Buffer {
 
     /* Old version that is bugged
     if (n < 0xfd){
@@ -146,8 +145,7 @@ export function serializeNumber(n){
 /*
 Used for serializing strings used in script signature
  */
-export function serializeString(s){
-
+export function serializeString(s: string): Buffer {
     if (s.length < 253)
         return Buffer.concat([
             new Buffer([s.length]),
@@ -173,37 +171,37 @@ export function serializeString(s){
         ]);
 }
 
-export function packUInt16LE(num){
+export function packUInt16LE(num: number): Buffer {
     const buff = new Buffer(2);
     buff.writeUInt16LE(num, 0);
     return buff;
 }
 
-export function packInt32LE(num){
+export function packInt32LE(num: number): Buffer {
     const buff = new Buffer(4);
     buff.writeInt32LE(num, 0);
     return buff;
 }
 
-export function packInt32BE(num){
+export function packInt32BE(num: number): Buffer {
     const buff = new Buffer(4);
     buff.writeInt32BE(num, 0);
     return buff;
 }
 
-export function packUInt32LE(num){
+export function packUInt32LE(num: number): Buffer {
     const buff = new Buffer(4);
     buff.writeUInt32LE(num, 0);
     return buff;
 }
 
-export function packUInt32BE(num){
+export function packUInt32BE(num: number): Buffer {
     const buff = new Buffer(4);
     buff.writeUInt32BE(num, 0);
     return buff;
 }
 
-export function packInt64LE(num){
+export function packInt64LE(num: number): Buffer {
     const buff = new Buffer(8);
     buff.writeUInt32LE(num % Math.pow(2, 32), 0);
     buff.writeUInt32LE(Math.floor(num / Math.pow(2, 32)), 4);
@@ -215,12 +213,12 @@ export function packInt64LE(num){
 An exact copy of python's range feature. Written by Tadeck:
  http://stackoverflow.com/a/8273091
  */
-export function range(start, stop, step){
-    if (typeof stop === 'undefined'){
+export function range(start: number, stop: number, step?: number): number[] {
+    if (typeof stop == 'undefined') {
         stop = start;
         start = 0;
     }
-    if (typeof step === 'undefined'){
+    if (typeof step == 'undefined') {
         step = 1;
     }
     if ((step > 0 && start >= stop) || (step < 0 && start <= stop)){
@@ -234,12 +232,10 @@ export function range(start, stop, step){
 }
 
 
-
-
 /*
  For POS coins - used to format wallet address for use in generation transaction's output
  */
-export function pubkeyToScript(key){
+export function pubkeyToScript(key: string): Buffer {
     if (key.length !== 66) {
         console.error('Invalid pubkey: ' + key);
         throw new Error();
@@ -252,7 +248,7 @@ export function pubkeyToScript(key){
 }
 
 
-export function miningKeyToScript(key){
+export function miningKeyToScript(key: string): Buffer {
     const keyBuffer = new Buffer(key, 'hex');
     return Buffer.concat([new Buffer([0x76, 0xa9, 0x14]), keyBuffer, new Buffer([0x88, 0xac])]);
 }
@@ -260,7 +256,7 @@ export function miningKeyToScript(key){
 /*
 For POW coins - used to format wallet address for use in generation transaction's output
  */
-export function addressToScript(addr){
+export function addressToScript(addr: string): Buffer {
 
     const decoded = bs58.decode(addr);
 
@@ -279,7 +275,7 @@ export function addressToScript(addr){
     return Buffer.concat([new Buffer([0x76, 0xa9, 0x14]), pubkey, new Buffer([0x88, 0xac])]);
 }
 
-export function getReadableHashRateString(hashrate){
+export function getReadableHashRateString(hashrate: number): string {
     let i = -1;
     const byteUnits = [' KH', ' MH', ' GH', ' TH', ' PH'];
     do {
@@ -291,7 +287,7 @@ export function getReadableHashRateString(hashrate){
 
 
 //Creates a non-truncated max difficulty (diff1) by bitwise right-shifting the max value of a uint256
-export function shiftMax256Right(shiftRight){
+export function shiftMax256Right(shiftRight: number): Buffer {
 
     //Max value uint256 (an array of ones representing 256 enabled bits)
     let arr256 = Array.apply(null, new Array(256)).map(Number.prototype.valueOf, 1);
@@ -324,8 +320,8 @@ export function shiftMax256Right(shiftRight){
 }
 
 
-export function bufferToCompactBits(startingBuff){
-    let bn = startingBuff.readBigUIntBE();
+export function bufferToCompactBits(startingBuff: Buffer): Buffer {
+    let bn = startingBuff.readBigUInt64BE();
     let buff = Buffer.alloc(8);
     buff.writeBigUInt64BE(bn);
     
@@ -340,18 +336,18 @@ export function bufferToCompactBits(startingBuff){
  More info: https://en.bitcoin.it/wiki/Target
  */
 
-export function bignumFromBitsBuffer(bitsBuff: Buffer){
+export function bignumFromBitsBuffer(bitsBuff: Buffer): bigint {
     const numBytes = bitsBuff.readUInt8(0);
     let bigBits = bitsBuff.slice(1).readBigUInt64BE();
     return bigBits * (BigInt(2) ** (BigInt(8) * BigInt(numBytes - 3)));
 }
 
-export function bignumFromBitsHex(bitsString){
+export function bignumFromBitsHex(bitsString: string): bigint {
     const bitsBuff = new Buffer(bitsString, 'hex');
     return bignumFromBitsBuffer(bitsBuff);
 }
 
-export function convertBitsToBuff(bitsBuff){
+export function convertBitsToBuff(bitsBuff: Buffer): Buffer {
     const target = bignumFromBitsBuffer(bitsBuff);
     let resultBuff = Buffer.alloc(8);
     resultBuff.writeBigUInt64BE(target);
@@ -361,6 +357,6 @@ export function convertBitsToBuff(bitsBuff){
     return buff256;
 }
 
-export function getTruncatedDiff(shift){
+export function getTruncatedDiff(shift: number): Buffer {
     return convertBitsToBuff(bufferToCompactBits(shiftMax256Right(shift)));
 }

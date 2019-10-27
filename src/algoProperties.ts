@@ -1,10 +1,10 @@
 import * as multiHashing from 'x-hashing';
 import * as util from './util.js';
 
-const diff1 = 0x00000000ffff0000000000000000000000000000000000000000000000000000;
+const diff1: number = 0x00000000ffff0000000000000000000000000000000000000000000000000000;
 
-const algos = {
-    sha256: {
+const algorithms: object = {
+    "sha256": {
         //Uncomment diff if you want to use hardcoded truncated diff
         //diff: '00000000ffff0000000000000000000000000000000000000000000000000000',
         hash: function () {
@@ -14,7 +14,7 @@ const algos = {
         }
     },
 
-    scrypt: {
+    "scrypt": {
         //Uncomment diff if you want to use hardcoded truncated diff
         //diff: '0000ffff00000000000000000000000000000000000000000000000000000000',
         multiplier: Math.pow(2, 16),
@@ -71,48 +71,53 @@ const algos = {
                 return Math.log(nInt) / Math.log(2);
             })();
 
-            return function (data) {
+            return function (data: any) {
                 return multiHashing.scryptn(data, nFactor);
             }
         }
     },
 
-    sha1: {
+    "sha1": {
         hash: function () {
             return function () {
                 return multiHashing.sha1.apply(this, arguments);
             }
         }
     },
-    c11: {
+
+    "c11": {
         hash: function () {
             return function () {
                 return multiHashing.c11.apply(this, arguments);
             }
         }
     },
-    x11: {
+
+    "x11": {
         hash: function () {
             return function () {
                 return multiHashing.x11.apply(this, arguments);
             }
         }
     },
-    x13: {
+
+    "x13": {
         hash: function () {
             return function () {
                 return multiHashing.x13.apply(this, arguments);
             }
         }
     },
-    x15: {
+
+    "x15": {
         hash: function () {
             return function () {
                 return multiHashing.x15.apply(this, arguments);
             }
         }
     },
-    x16r: {
+
+    "x16r": {
         multiplier: Math.pow(2, 8),
         hash: function () {
             return function () {
@@ -120,7 +125,8 @@ const algos = {
             }
         }
     },
-    x16rv2: {
+
+    "x16rv2": {
         multiplier: Math.pow(2, 8),
         hash: function () {
             return function () {
@@ -128,26 +134,28 @@ const algos = {
             }
         }
     },
-    nist5: {
+    "nist5": {
         hash: function () {
             return function () {
                 return multiHashing.nist5.apply(this, arguments);
             }
         }
     },
-    quark: {
+
+    "quark": {
         hash: function () {
             return function () {
                 return multiHashing.quark.apply(this, arguments);
             }
         }
     },
-    keccak: {
+
+    "keccak": {
         multiplier: Math.pow(2, 8),
         hash: function (coinConfig) {
             if (coinConfig.normalHashing === true) {
-                return function (data, nTimeInt) {
-                    return multiHashing.keccak(multiHashing.keccak(Buffer.concat([data, new Buffer(nTimeInt.toString(16), 'hex')])));
+                return function (data: Buffer, nTimeInt: Buffer) {
+                    return multiHashing.keccak(multiHashing.keccak(Buffer.concat([data, new Buffer(nTimeInt.toString('hex'), 'hex')])));
                 };
             } else {
                 return function () {
@@ -156,7 +164,8 @@ const algos = {
             }
         }
     },
-    blake: {
+
+    "blake": {
         multiplier: Math.pow(2, 8),
         hash: function () {
             return function () {
@@ -164,7 +173,8 @@ const algos = {
             }
         }
     },
-    neoscrypt: {
+
+    "neoscrypt": {
         multiplier: Math.pow(2, 5),
         hash: function () {
             return function () {
@@ -172,14 +182,16 @@ const algos = {
             }
         }
     },
-    skein: {
+
+    "skein": {
         hash: function () {
             return function () {
                 return multiHashing.skein.apply(this, arguments);
             }
         }
     },
-    groestl: {
+
+    "groestl": {
         multiplier: Math.pow(2, 8),
         hash: function () {
             return function () {
@@ -187,7 +199,8 @@ const algos = {
             }
         }
     },
-    fugue: {
+
+    "fugue": {
         multiplier: Math.pow(2, 8),
         hash: function () {
             return function () {
@@ -195,21 +208,24 @@ const algos = {
             }
         }
     },
-    shavite3: {
+
+    "shavite3": {
         hash: function () {
             return function () {
                 return multiHashing.shavite3.apply(this, arguments);
             }
         }
     },
-    hefty1: {
+
+    "hefty1": {
         hash: function () {
             return function () {
                 return multiHashing.hefty1.apply(this, arguments);
             }
         }
     },
-    qubit: {
+
+    "qubit": {
         hash: function () {
             return function () {
                 return multiHashing.qubit.apply(this, arguments);
@@ -219,24 +235,27 @@ const algos = {
 };
 
 
-for (const algo in algos){
-    if (!algos[algo].multiplier)
-        algos[algo].multiplier = 1;
+for (const algorithm in algorithms) {
+    if (!algorithms.hasOwnProperty(algorithm)) {
+        continue
+    }
+    if (!algorithms[algorithm].multiplier)
+        algorithms[algorithm].multiplier = 1;
 
-    /*if (algos[algo].diff){
-        algos[algo].maxDiff = bignum(algos[algo].diff, 16);
+    /*if (algos[algorithm].diff){
+        algos[algorithm].maxDiff = bignum(algos[algorithm].diff, 16);
     }
-    else if (algos[algo].shift){
-        algos[algo].nonTruncatedDiff = util.shiftMax256Right(algos[algo].shift);
-        algos[algo].bits = util.bufferToCompactBits(algos[algo].nonTruncatedDiff);
-        algos[algo].maxDiff = bignum.fromBuffer(util.convertBitsToBuff(algos[algo].bits));
+    else if (algos[algorithm].shift){
+        algos[algorithm].nonTruncatedDiff = util.shiftMax256Right(algos[algorithm].shift);
+        algos[algorithm].bits = util.bufferToCompactBits(algos[algorithm].nonTruncatedDiff);
+        algos[algorithm].maxDiff = bignum.fromBuffer(util.convertBitsToBuff(algos[algorithm].bits));
     }
-    else if (algos[algo].multiplier){
-        algos[algo].maxDiff = diff1.mul(Math.pow(2, 32) / algos[algo].multiplier);
+    else if (algos[algorithm].multiplier){
+        algos[algorithm].maxDiff = diff1.mul(Math.pow(2, 32) / algos[algorithm].multiplier);
     }
     else{
-        algos[algo].maxDiff = diff1;
+        algos[algorithm].maxDiff = diff1;
     }*/
 }
 
-export {algos, diff1}
+export {algorithms, diff1}
