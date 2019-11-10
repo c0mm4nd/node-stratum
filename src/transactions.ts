@@ -123,7 +123,6 @@ see: https://en.bitcoin.it/wiki/Protocol_specification#tx
  */
 
 const generateOutputTransactions = function (poolRecipient, recipients, rpcData): Buffer {
-
     let payeeScript;
     let payeeReward = 0;
     let reward = rpcData.coinbasevalue;
