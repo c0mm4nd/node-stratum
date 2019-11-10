@@ -342,56 +342,60 @@
         "signature": "5cbc27193321e6ba10f4e9f3c5519649d9e2716cf103efd7eaa7a89e0f8ed1d4"
       },
       "./src/util.ts": {
-        "version": "99c74990cc055516df76c4c5ee563eb030f2d74ecffa811b47b14651f37befaf",
-        "signature": "a5c23e283d3a73cf05fba6f62af95206220544fc84647b66e3b111fe29c16e85"
+        "version": "95e2a6745fe83260ce02fdc4ace01dff59ce4d923f0dfc6b0e91a1a6e73f0902",
+        "signature": "71d7739d1b41731142a40773a0bff749868f065dfff2858e4f86c41b1227393c"
       },
       "./src/algoProperties.ts": {
-        "version": "b3ccead2ceac94d3c95249c33848cd4ee7eb0e780be4d447797a345241f9cad2",
-        "signature": "8893205d91bb7f08dd4317e73ed1f19eff17af48376d106e290e526b6ca6d5e0"
+        "version": "d7a7b3508363e695afd840e89ea6d382f06b1303bc33c6844f951b99f99ab568",
+        "signature": "1519074cb333a73b421f6c21451c319cb02ca1d3cad0a1a6764be4b5590cfb00"
       },
       "./src/merkleTree.ts": {
-        "version": "1f1a4fe367413a2a71d10b915e667e270f81dc3e4b93c37eda5ae55504c63fbf",
-        "signature": "6640f0506de155cf4e3924abc8c01297c3ce65ac5cf09c641cef31c04414080e"
+        "version": "166cb86987ecfaa0452f060b7b0f6c29ae347dd9f4b13838211baa99f99f2565",
+        "signature": "88f9cd003376cc8730fbcf708361b82d9d02536bb772b3e2d163afd49402daa0"
       },
       "./src/transactions.ts": {
-        "version": "384b2f2a78e7380f18b9b2776bba99c47281a0cbd3a789a2f97b37feede09c7e",
-        "signature": "1189f8f9891c927ece3be736a2003a63dafb4794c6db343dd755239bc1caa64e"
+        "version": "588ee869c457efd8b66cb0ca84e05322f8423d4984d9a4cea193a46593c87807",
+        "signature": "dd87e4a2ffd2cfb5fd9280ab8738e7878312ab46e08b0034b77ed4b303295c09"
       },
       "./src/blockTemplate.ts": {
-        "version": "193cc1cdb5b4916cec41197901a5e525c3d2890da02de8c4e8554a1183b9f6c3",
-        "signature": "25f930b8a61f03308b85384e161e4522d3a51532037af168a8877fd2cc44a4ce"
+        "version": "701d5d9746ffc80cd9e785dd9dd76a93cc92dfb94fb3ea2d054ee47874d842ca",
+        "signature": "bfea55888e6759323edc09ba9964984a62bc628a1bbc190eeef91eb6032cc517"
       },
       "./node_modules/@types/async/index.d.ts": {
         "version": "fe5ac92d59d0fc0ce12792f92330fdefd98f58f27d1b184cacf060413d169683",
         "signature": "fe5ac92d59d0fc0ce12792f92330fdefd98f58f27d1b184cacf060413d169683"
       },
       "./src/daemon.ts": {
-        "version": "26e9f01a2417acd6e7bc1f692eab09b93bcff19e1abb9cdfb1169626e9b398a7",
-        "signature": "db08c5b826a171a2490019cf42f174e3f9571e973bdf2489be8a87a3522ad9cf"
+        "version": "57a423c530f983ac3a1cd8dab7eb90c80b69e33a798b1bbde2d6c64cb60608f4",
+        "signature": "861e211e6731fce705c5d54714ae9b0a375327bd03277089f6bb4be24bd97059"
       },
       "./src/varDiff.ts": {
-        "version": "917f822c8c6c0fd4bb70ced298f929bd406ac9c15aefb95581b1bac002e87520",
-        "signature": "30e9aae1d6720e6effd064c9e44f7e2aa33c93a2d6bcff8cec714e147fd16a3b"
+        "version": "acfa4e9334dcca9b611d760d86ed2b88df70fa65235adbe8a138d76bc372e040",
+        "signature": "ed66c628575c1a135efbf88f293af0861779c83f30b1faa2276e6e8e1f5484e6"
       },
       "./src/peer.ts": {
-        "version": "5f4d19c25481c2a4af689d0187c2d3954799e001e99202454c7ea2666a0bdc67",
-        "signature": "c2c40d84306e930008741d71d8224191a383862a5f6c4dc9ac2077b5ccdc7c4a"
+        "version": "7e5603be46270da7623e3e4de63b32ed958c73a9e5b46c6e23553c3c958776cb",
+        "signature": "73921eb23c0c6f70d3ad33dd2d59a47b41a08991763f2b467fcc611590c6f716"
       },
       "./src/stratum.ts": {
-        "version": "520b89b28a870c721f12a70882d9caa683ca48f9fba07187ca16eb46935c38d8",
-        "signature": "f63eed6701648b2753c28ea0e924d4a3679f517499022c882f72372a617fc72c"
+        "version": "243a3c717bcc086b5bcfb20836412abf794581ee3d76c985725bdba03011d0e2",
+        "signature": "6ef277e3987e003a477de2c2667c829626ae3fa74eeff3e0d5eed38260d01678"
       },
       "./src/jobManager.ts": {
-        "version": "5f92835bbf3b09750bc0d887b804e39e89f1fe12915b8cd57a736e1d7e8ffedf",
-        "signature": "54335bebecd813e3521e6b3f6166496a61a241d5ce0e371cd1ef95903a504f08"
+        "version": "c1ec6351805eaaf3e69a95eb43ab970843f6cad73d09e8380fd8e2c92c984633",
+        "signature": "65ff19f3429fdf63ab1967b0a631a9baf13fcecb6edfaa56831a9156796354ef"
       },
       "./src/pool.ts": {
-        "version": "7fe58250deef134b18a83e9e1b258da1d0c5f749cb62d24b19fc9e7b20261dff",
-        "signature": "c3a297ed4920f02a761eeabdbea95843cf2aca0d8db1cd64aaf8e8c9dff5d003"
+        "version": "06664f02c8025f11405fc2c8a475abd3117e0febed9fc919564338cf1b239437",
+        "signature": "f3d33498065ad12fbd9bdb93b38332ce98f82f308dd416cb6dacf0f8696887aa"
       },
       "./src/index.ts": {
-        "version": "590c7e3297593db03ff01f6b1fa2c8ce88f164e812f1c0ca57c250b8ade94e28",
-        "signature": "5f2f562fa495b8c8907abe27653d0ef11dba43c725d2b9f9840b54fd7a1a24a8"
+        "version": "e75063cc7958b6ebb44bf9eaaf8eff7b7223ef2f779ace3ae2412d3d5ea45577",
+        "signature": "9071cb0327ec72c789fce7a591df1b0fb094df99936fdba05402b13635682a64"
+      },
+      "./src/options.ts": {
+        "version": "0e0f40921d85e1d72118d2d10667cabc54e505778e111833f61a3d5a3e3e6186",
+        "signature": "591d7c47fb222b141ec7bde7998a837624cc0a218937ae4deef4e8749cc253e2"
       },
       "./node_modules/@types/base-x/index.d.ts": {
         "version": "a9c4ccaf07ab3bc395082fe5edb3ba4ed06c2f69d57e749937462a891665b1e4",
@@ -1056,8 +1060,8 @@
       ],
       "./src/daemon.ts": [
         "./node_modules/@types/node/http.d.ts",
-        "./node_modules/@types/node/events.d.ts",
         "./node_modules/@types/async/index.d.ts",
+        "./node_modules/@types/node/events.d.ts",
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
         "./node_modules/@types/node/util.d.ts",
@@ -1084,6 +1088,7 @@
         "./node_modules/@types/node/net.d.ts",
         "./node_modules/@types/node/events.d.ts",
         "./src/util.ts",
+        "./node_modules/@types/node/tls.d.ts",
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
         "./node_modules/@types/node/util.d.ts",
@@ -1117,6 +1122,12 @@
       ],
       "./src/index.ts": [
         "./src/pool.ts",
+        "./node_modules/@types/node/fs.d.ts",
+        "./node_modules/@types/node/ts3.2/fs.d.ts",
+        "./node_modules/@types/node/util.d.ts",
+        "./node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "./src/options.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
         "./node_modules/@types/node/util.d.ts",
@@ -1744,47 +1755,44 @@
         "./node_modules/@types/node/ts3.2/fs.d.ts",
         "./node_modules/@types/node/util.d.ts",
         "./node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "./src/pool.ts": [
+        "./src/daemon.ts",
+        "./src/stratum.ts",
+        "./node_modules/@types/node/events.d.ts"
+      ],
+      "./src/jobManager.ts": [
+        "./node_modules/@types/node/events.d.ts"
+      ],
+      "./src/stratum.ts": [
+        "./node_modules/@types/node/events.d.ts",
+        "./node_modules/@types/node/net.d.ts"
+      ],
+      "./src/peer.ts": [
+        "./node_modules/@types/node/net.d.ts",
+        "./node_modules/@types/node/events.d.ts"
+      ],
+      "./src/blockTemplate.ts": [
+        "./src/merkleTree.ts"
+      ],
+      "./src/daemon.ts": [
+        "./node_modules/@types/node/events.d.ts"
+      ],
+      "./src/varDiff.ts": [
+        "./node_modules/@types/node/events.d.ts"
       ]
     },
     "semanticDiagnosticsPerFile": [
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es5.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2016.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2017.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2018.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.dom.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.dom.iterable.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.webworker.importscripts.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.scripthost.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.core.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.collection.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.generator.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.promise.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.proxy.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.reflect.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.symbol.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2016.array.include.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2017.object.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2017.sharedmemory.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2017.string.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2017.intl.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2017.typedarrays.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2018.asyncgenerator.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2018.asynciterable.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2018.intl.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2018.promise.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2018.regexp.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.array.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.object.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.string.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.symbol.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.intl.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.bigint.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.full.d.ts",
+      "./src/util.ts",
+      "./src/stratum.ts",
+      "./src/peer.ts",
+      "./src/blockTemplate.ts",
+      "./src/transactions.ts",
+      "./src/merkleTree.ts",
+      "./src/algoProperties.ts",
+      "./src/daemon.ts",
+      "./src/varDiff.ts",
+      "./src/options.ts",
       "./node_modules/@types/node/globals.d.ts",
       "./node_modules/@types/node/assert.d.ts",
       "./node_modules/@types/node/async_hooks.d.ts",
@@ -1832,20 +1840,49 @@
       "./node_modules/@types/node/ts3.2/index.d.ts",
       "./node_modules/base-x/src/index.d.ts",
       "./node_modules/@types/bs58/index.d.ts",
-      "./src/util.ts",
-      "./src/algoProperties.ts",
-      "./src/merkleTree.ts",
-      "./src/transactions.ts",
-      "./src/blockTemplate.ts",
       "./node_modules/@types/async/index.d.ts",
-      "./src/daemon.ts",
-      "./src/varDiff.ts",
-      "./src/peer.ts",
-      "./src/stratum.ts",
+      "./node_modules/@types/base-x/index.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es5.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2016.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2017.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2018.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.dom.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.dom.iterable.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.webworker.importscripts.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.scripthost.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.core.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.collection.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.generator.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.promise.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.proxy.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.reflect.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.symbol.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2016.array.include.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2017.object.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2017.sharedmemory.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2017.string.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2017.intl.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2017.typedarrays.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2018.asyncgenerator.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2018.asynciterable.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2018.intl.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2018.promise.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2018.regexp.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.array.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.object.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.string.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.symbol.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.intl.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.bigint.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.full.d.ts",
       "./src/jobManager.ts",
       "./src/pool.ts",
-      "./src/index.ts",
-      "./node_modules/@types/base-x/index.d.ts"
+      "./src/index.ts"
     ]
   },
   "version": "3.6.4"
