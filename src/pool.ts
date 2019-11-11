@@ -26,17 +26,6 @@ export class Pool extends EventEmitter {
     private peer: Peer;
     private varDiff: {};
 
-    constructor(options: poolOption, authorizeFn: Function) {
-        super();
-        this.options = options;
-        this.authorizeFn = authorizeFn;
-
-        if (!(options.coin.algorithm in algorithms)) {
-            this.emitErrorLog('The ' + options.coin.algorithm + ' hashing algorithm is not supported.');
-            throw new Error();
-        }
-    }
-
     emitLog(text: string) {
         this.emit('log', 'debug', text);
     }
@@ -53,10 +42,21 @@ export class Pool extends EventEmitter {
         this.emit('log', 'special', text);
     }
 
+    constructor(options: poolOption, authorizeFn: Function) {
+        super();
+        this.options = options;
+        this.authorizeFn = authorizeFn;
+
+        if (!(options.coin.algorithm in algorithms)) {
+            this.emitErrorLog('The ' + options.coin.algorithm + ' hashing algorithm is not supported.');
+            throw new Error();
+        }
+    }
+
     start() {
         this.SetupVarDiff();
         this.SetupApi();
-        this.SetupDaemonInterface(() => {
+        this.SetupDaemonManager(() => {
             this.DetectCoinData(() => {
                 this.SetupRecipients();
                 this.SetupJobManager();
@@ -347,7 +347,7 @@ export class Pool extends EventEmitter {
         });
     }
 
-    SetupDaemonInterface(finishedCallback) {
+    SetupDaemonManager(finishedCallback) {
         if (!Array.isArray(this.options.daemons) || this.options.daemons.length < 1) {
             this.emitErrorLog('No daemons have been configured - pool cannot start');
             return;
@@ -359,10 +359,8 @@ export class Pool extends EventEmitter {
 
         this.daemon.once('online', () => {
             finishedCallback();
-
         }).on('connectionFailed', (error) => {
             this.emitErrorLog('Failed to connect daemon(s): ' + JSON.stringify(error));
-
         }).on('error', (message) => {
             this.emitErrorLog(message);
         });
