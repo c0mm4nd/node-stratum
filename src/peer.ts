@@ -96,55 +96,53 @@ export class Peer extends EventEmitter {
             getblocks: commandStringBuffer('getblocks')
         };
 
-        const _this = this;
-        (function init(): void {
-            _this.Connect();
+        // init
+        ((): void => {
+            this.Connect();
         })();
     }
 
     Connect(): void {
-        const _this = this;
         this.client = net.connect({
             host: this.options.p2p.host,
             port: this.options.p2p.port
-        }, function () {
-            _this.SendVersion();
+        }, () => {
+            this.SendVersion();
         });
-        this.client.on('close', function () {
-            if (_this.verack) {
-                _this.emit('disconnected');
-                _this.verack = false;
-                _this.Connect();
-            } else if (_this.validConnectionConfig)
-                _this.emit('connectionRejected');
+        this.client.on('close', () => {
+            if (this.verack) {
+                this.emit('disconnected');
+                this.verack = false;
+                this.Connect();
+            } else if (this.validConnectionConfig)
+                this.emit('connectionRejected');
 
         });
-        this.client.on('error', function (e) {
+        this.client.on('error', (e) => {
             if (e.code === 'ECONNREFUSED') {
-                _this.validConnectionConfig = false;
-                _this.emit('connectionFailed');
+                this.validConnectionConfig = false;
+                this.emit('connectionFailed');
             }
             else
-                _this.emit('socketError', e);
+                this.emit('socketError', e);
         });
 
 
-        this.SetupMessageParser(_this.client);
+        this.SetupMessageParser(this.client);
     }
 
 
     SetupMessageParser(client: net.Socket): void {
-        const _this = this;
-        const beginReadingMessage = function (preRead) {
+        const beginReadingMessage = (preRead) => {
 
-            readFlowingBytes(client, 24, preRead, function (header, lopped) {
+            readFlowingBytes(client, 24, preRead, (header, lopped) => {
                 const msgMagic = header.readUInt32LE(0);
-                if (msgMagic !== _this.magicInt) {
-                    _this.emit('error', 'bad magic number from peer');
-                    while (header.readUInt32LE(0) !== _this.magicInt && header.length >= 4) {
+                if (msgMagic !== this.magicInt) {
+                    this.emit('error', 'bad magic number from peer');
+                    while (header.readUInt32LE(0) !== this.magicInt && header.length >= 4) {
                         header = header.slice(1);
                     }
-                    if (header.readUInt32LE(0) === _this.magicInt) {
+                    if (header.readUInt32LE(0) === this.magicInt) {
                         beginReadingMessage(header);
                     } else {
                         beginReadingMessage(new Buffer([]));
@@ -154,13 +152,13 @@ export class Peer extends EventEmitter {
                 const msgCommand = header.slice(4, 16).toString();
                 const msgLength = header.readUInt32LE(16);
                 const msgChecksum = header.readUInt32LE(20);
-                readFlowingBytes(client, msgLength, lopped, function (payload, lopped) {
+                readFlowingBytes(client, msgLength, lopped, (payload, lopped) => {
                     if (util.sha256d(payload).readUInt32LE(0) !== msgChecksum) {
-                        _this.emit('error', 'bad payload - failed checksum');
+                        this.emit('error', 'bad payload - failed checksum');
                         beginReadingMessage(null);
                         return;
                     }
-                    _this.HandleMessage(msgCommand, payload);
+                    this.HandleMessage(msgCommand, payload);
                     beginReadingMessage(lopped);
                 });
             });
@@ -172,7 +170,6 @@ export class Peer extends EventEmitter {
     //Parsing inv message https://en.bitcoin.it/wiki/Protocol_specification#inv
     HandleInv(payload: Buffer): void {
         //sloppy varint decoding
-        const _this = this;
         let count = payload.readUInt8(0);
         payload = payload.slice(1);
         if (count >= 0xfd)
@@ -189,7 +186,7 @@ export class Peer extends EventEmitter {
                     break;
                 case this.invCodes.block:
                     const block = payload.slice(4, 36).toString('hex');
-                    _this.emit('blockFound', block);
+                    this.emit('blockFound', block);
                     break;
             }
             payload = payload.slice(36);
@@ -197,8 +194,6 @@ export class Peer extends EventEmitter {
     }
 
     HandleMessage(command: string, payload: Buffer): void {
-        const _this = this;
-
         this.emit('peerMessage', {command: command, payload: payload});
         switch (command) {
             case this.commands.inv.toString():
@@ -207,7 +202,7 @@ export class Peer extends EventEmitter {
             case this.commands.verack.toString():
                 if (!this.verack) {
                     this.verack = true;
-                    _this.emit('connected');
+                    this.emit('connected');
                 }
                 break;
             default:

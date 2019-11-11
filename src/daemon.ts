@@ -39,27 +39,24 @@ export class DaemonManager extends EventEmitter {
     }
 
     public init() {
-        const _this = this;
-        this.isOnline(function (online) {
+        this.isOnline((online) => {
             if (online)
-                _this.emit('online');
+                this.emit('online');
         });
     }
 
     public isOnline(callback: Function) {
-        const _this = this;
-        this.cmd('getpeerinfo', [], function (results) {
-            const allOnline: boolean = results.every(function (result) {
-                return !results.error;
+        this.cmd('getpeerinfo', [], (results) => {
+            const allOnline: boolean = results.every((result) => {
+                return !result.error;
             });
             callback(allOnline);
             if (!allOnline)
-                _this.emit('connectionFailed', results);
+                this.emit('connectionFailed', results);
         }, false, false);
     }
 
     public performHttpRequest(instance: Daemon, jsonData: string, callback: Function) {
-        const _this = this;
         const options = {
             hostname: (typeof (instance.host) == 'undefined' ? '127.0.0.1' : instance.host),
             port: instance.port,
@@ -70,11 +67,11 @@ export class DaemonManager extends EventEmitter {
             }
         };
 
-        const parseJson = function (res: http.IncomingMessage, data: string) {
+        const parseJson = (res: http.IncomingMessage, data: string) => {
             let dataJson;
 
             if (res.statusCode === 401) {
-                _this.logger('error', 'Unauthorized RPC access - invalid RPC username or password');
+                this.logger('error', 'Unauthorized RPC access - invalid RPC username or password');
                 return;
             }
 
@@ -86,7 +83,7 @@ export class DaemonManager extends EventEmitter {
                     parseJson(res, data);
                     return;
                 }
-                _this.logger('error', 'Could not parse rpc data from daemon instance  ' + instance.index
+                this.logger('error', 'Could not parse rpc data from daemon instance  ' + instance.index
                     + '\nRequest Data: ' + jsonData
                     + '\nReponse Data: ' + data);
 
@@ -136,10 +133,9 @@ export class DaemonManager extends EventEmitter {
     }
 
     public cmd(method: string, params: any, callback: Function, streamResults: boolean, returnRawData: boolean) {
-        const _this = this;
         const results = [];
 
-        async.each(this.instances, function (instance: Daemon, eachCallback: Function) {
+        async.each(this.instances, (instance: Daemon, eachCallback: Function) => {
 
             let itemFinished = function (error, result, data) {
 
@@ -162,7 +158,7 @@ export class DaemonManager extends EventEmitter {
                 id: Date.now() + Math.floor(Math.random() * 10)
             });
 
-            _this.performHttpRequest(instance, requestJson, function (error, result, data) {
+            this.performHttpRequest(instance, requestJson, function (error, result, data) {
                 itemFinished(error, result, data);
             });
 

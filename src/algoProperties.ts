@@ -8,7 +8,7 @@ const algorithms: object = {
         //Uncomment diff if you want to use hardcoded truncated diff
         //diff: '00000000ffff0000000000000000000000000000000000000000000000000000',
         hash: function () {
-            return function () {
+            return () => {
                 return util.sha256d.apply(this, arguments);
             }
         }
@@ -79,7 +79,7 @@ const algorithms: object = {
 
     "sha1": {
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.sha1.apply(this, arguments);
             }
         }
@@ -87,7 +87,7 @@ const algorithms: object = {
 
     "c11": {
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.c11.apply(this, arguments);
             }
         }
@@ -95,7 +95,7 @@ const algorithms: object = {
 
     "x11": {
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.x11.apply(this, arguments);
             }
         }
@@ -103,7 +103,7 @@ const algorithms: object = {
 
     "x13": {
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.x13.apply(this, arguments);
             }
         }
@@ -111,7 +111,7 @@ const algorithms: object = {
 
     "x15": {
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.x15.apply(this, arguments);
             }
         }
@@ -120,7 +120,7 @@ const algorithms: object = {
     "x16r": {
         multiplier: Math.pow(2, 8),
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.x16r.apply(this, arguments);
             }
         }
@@ -129,14 +129,14 @@ const algorithms: object = {
     "x16rv2": {
         multiplier: Math.pow(2, 8),
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.x16rv2.apply(this, arguments);
             }
         }
     },
     "nist5": {
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.nist5.apply(this, arguments);
             }
         }
@@ -144,7 +144,7 @@ const algorithms: object = {
 
     "quark": {
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.quark.apply(this, arguments);
             }
         }
@@ -158,7 +158,7 @@ const algorithms: object = {
                     return multiHashing.keccak(multiHashing.keccak(Buffer.concat([data, new Buffer(nTimeInt.toString('hex'), 'hex')])));
                 };
             } else {
-                return function () {
+                return () => {
                     return multiHashing.keccak.apply(this, arguments);
                 }
             }
@@ -168,7 +168,7 @@ const algorithms: object = {
     "blake": {
         multiplier: Math.pow(2, 8),
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.blake.apply(this, arguments);
             }
         }
@@ -177,7 +177,7 @@ const algorithms: object = {
     "neoscrypt": {
         multiplier: Math.pow(2, 5),
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.neoscrypt.apply(this, arguments);
             }
         }
@@ -185,7 +185,7 @@ const algorithms: object = {
 
     "skein": {
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.skein.apply(this, arguments);
             }
         }
@@ -194,7 +194,7 @@ const algorithms: object = {
     "groestl": {
         multiplier: Math.pow(2, 8),
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.groestl.apply(this, arguments);
             }
         }
@@ -203,7 +203,7 @@ const algorithms: object = {
     "fugue": {
         multiplier: Math.pow(2, 8),
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.fugue.apply(this, arguments);
             }
         }
@@ -211,7 +211,7 @@ const algorithms: object = {
 
     "shavite3": {
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.shavite3.apply(this, arguments);
             }
         }
@@ -219,7 +219,7 @@ const algorithms: object = {
 
     "hefty1": {
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.hefty1.apply(this, arguments);
             }
         }
@@ -227,7 +227,7 @@ const algorithms: object = {
 
     "qubit": {
         hash: function () {
-            return function () {
+            return () => {
                 return multiHashing.qubit.apply(this, arguments);
             }
         }

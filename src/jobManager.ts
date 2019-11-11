@@ -51,10 +51,10 @@ class JobCounter {
 
 export class JobManager extends EventEmitter {
     private jobCounter: JobCounter;
-    private shareMultiplier: number;
+    private readonly shareMultiplier: number;
     private extraNonceCounter: ExtraNonceCounter;
-    private extraNoncePlaceholder: Buffer;
-    private extraNonce2Size: number;
+    private readonly extraNoncePlaceholder: Buffer;
+    private readonly extraNonce2Size: number;
     private validJobs: {};
     private currentJob: {
         rpcData: any;
@@ -66,7 +66,6 @@ export class JobManager extends EventEmitter {
 
     constructor(options: poolOption) {
         super();
-        const _this = this;
         this.options = options;
         this.jobCounter = new JobCounter();
 
@@ -97,30 +96,30 @@ export class JobManager extends EventEmitter {
             }
         })();
 
-        this.blockHasher = (function (): (...args) => Buffer {
+        this.blockHasher = ((): (...args) => Buffer => {
             switch (options.coin.algorithm) {
                 case 'scrypt':
                     if (options.coin.reward === 'POS') {
-                        return function (...args): Buffer {
-                            return util.reverseBuffer(_this.hashDigest.apply(this, args));
+                        return (...args): Buffer => {
+                            return util.reverseBuffer(this.hashDigest.apply(this, args));
                         };
                     }
                     break;
                 case 'scrypt-jane':
                     if (options.coin.reward === 'POS') {
-                        return function (...args): Buffer {
-                            return util.reverseBuffer(_this.hashDigest.apply(this, args));
+                        return (...args): Buffer => {
+                            return util.reverseBuffer(this.hashDigest.apply(this, args));
                         };
                     }
                     break;
                 case 'scrypt-n':
-                    return function (...args): Buffer {
+                    return (...args): Buffer => {
                         return util.reverseBuffer(util.sha256d(args[0]));
                     };
 
                 default:
-                    return function (...args): Buffer {
-                        return util.reverseBuffer(_this.hashDigest.apply(this, args));
+                    return (...args): Buffer => {
+                        return util.reverseBuffer(this.hashDigest.apply(this, args));
                     };
             }
         })();
@@ -184,9 +183,8 @@ export class JobManager extends EventEmitter {
     };
 
     processShare(jobId: string, previousDifficulty: number, difficulty: number, extraNonce1: string, extraNonce2: string, nTime: string, nonce: Buffer, ipAddress: any, port: any, workerName: any): { result?: boolean; blockHash?: string; error: [number, string] } {
-        const _this = this;
-        const shareError = function (error: [number, string]): { error: [number, string]; } {
-            _this.emit('share', {
+        const shareError = (error: [number, string]): { error: [number, string]; } => {
+            this.emit('share', {
                 job: jobId,
                 ip: ipAddress,
                 worker: workerName,
@@ -198,7 +196,7 @@ export class JobManager extends EventEmitter {
 
         const submitTime = Date.now() / 1000 | 0;
 
-        if (extraNonce2.length / 2 !== _this.extraNonce2Size)
+        if (extraNonce2.length / 2 !== this.extraNonce2Size)
             return shareError([20, 'incorrect size of extranonce2']);
 
         const job = this.validJobs[jobId];
@@ -274,7 +272,7 @@ export class JobManager extends EventEmitter {
         }
 
 
-        _this.emit('share', {
+        this.emit('share', {
             job: jobId,
             ip: ipAddress,
             port: port,

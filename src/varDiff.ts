@@ -76,7 +76,6 @@ export class VarDiff extends EventEmitter {
     }
 
     manageClient(client) {
-        const _this = this;
         const stratumPort = client.socket.localPort;
 
         if (stratumPort != this.port) {
@@ -88,13 +87,13 @@ export class VarDiff extends EventEmitter {
         let lastRtc;
         let timeBuffer;
 
-        client.on('submit', function(){
+        client.on('submit', () => {
             const ts = (Date.now() / 1000) | 0;
 
             if (!lastRtc){
-                lastRtc = ts - _this.options.retargetTime / 2;
+                lastRtc = ts - this.options.retargetTime / 2;
                 lastTs = ts;
-                timeBuffer = new RingBuffer(_this.bufferSize);
+                timeBuffer = new RingBuffer(this.bufferSize);
                 return;
             }
 
@@ -103,25 +102,25 @@ export class VarDiff extends EventEmitter {
             timeBuffer.append(sinceLast);
             lastTs = ts;
 
-            if ((ts - lastRtc) < _this.options.retargetTime && timeBuffer.size() > 0)
+            if ((ts - lastRtc) < this.options.retargetTime && timeBuffer.size() > 0)
                 return;
 
             lastRtc = ts;
             const avg = timeBuffer.avg();
-            let ddiff = _this.options.targetTime / avg;
+            let ddiff = this.options.targetTime / avg;
 
-            if (avg > _this.tMax && client.difficulty > _this.options.minDiff) {
-                if (_this.options.x2mode) {
+            if (avg > this.tMax && client.difficulty > this.options.minDiff) {
+                if (this.options.x2mode) {
                     ddiff = 0.5;
                 }
-                if (ddiff * client.difficulty < _this.options.minDiff) {
-                    ddiff = _this.options.minDiff / client.difficulty;
+                if (ddiff * client.difficulty < this.options.minDiff) {
+                    ddiff = this.options.minDiff / client.difficulty;
                 }
-            } else if (avg < _this.tMin) {
-                if (_this.options.x2mode) {
+            } else if (avg < this.tMin) {
+                if (this.options.x2mode) {
                     ddiff = 2;
                 }
-                const diffMax = _this.options.maxDiff;
+                const diffMax = this.options.maxDiff;
                 if (ddiff * client.difficulty > diffMax) {
                     ddiff = diffMax / client.difficulty;
                 }
@@ -132,7 +131,7 @@ export class VarDiff extends EventEmitter {
 
             const newDiff = toFixed(client.difficulty * ddiff, 8);
             timeBuffer.clear();
-            _this.emit('newDifficulty', client, newDiff);
+            this.emit('newDifficulty', client, newDiff);
         });
     }
 }

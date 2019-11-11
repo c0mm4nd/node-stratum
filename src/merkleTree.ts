@@ -21,7 +21,6 @@ export class MerkleTree {
     }
 
     calculateSteps(data: Buffer[]): Buffer[] {
-        const _this = this;
         let L = data;
         const steps = [];
         const PreL = [null];
@@ -41,8 +40,8 @@ export class MerkleTree {
 
                 const Ld = [];
                 const r = util.range(StartL, Ll, 2);
-                r.forEach(function(i){
-                    Ld.push(_this.merkleJoin(L[i], L[i + 1]));
+                r.forEach((i) => {
+                    Ld.push(this.merkleJoin(L[i], L[i + 1]));
                 });
                 L = PreL.concat(Ld);
                 Ll = L.length;

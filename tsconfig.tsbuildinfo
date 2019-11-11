@@ -25,10 +25,6 @@
         "version": "0fc0f68d3f4d94aa65fab955592e4a9f2066e6f8ee2f66fcc45adf4037fc167b",
         "signature": "0fc0f68d3f4d94aa65fab955592e4a9f2066e6f8ee2f66fcc45adf4037fc167b"
       },
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.d.ts": {
-        "version": "1c05c805f62c1c06a60b7812cd8de2dff7a5bda2218ce5edda5d9d298b1c48e1",
-        "signature": "1c05c805f62c1c06a60b7812cd8de2dff7a5bda2218ce5edda5d9d298b1c48e1"
-      },
       "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.dom.d.ts": {
         "version": "2d53f3741e5a4f78a90f623387d71a1cc809bb258f10cdaec034b67cbf71022f",
         "signature": "2d53f3741e5a4f78a90f623387d71a1cc809bb258f10cdaec034b67cbf71022f"
@@ -149,9 +145,9 @@
         "version": "63b66918290d794f73832a6d0325be5026236674fe8c0cb0b68d162000d7bbe8",
         "signature": "63b66918290d794f73832a6d0325be5026236674fe8c0cb0b68d162000d7bbe8"
       },
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.full.d.ts": {
-        "version": "b209a815904a485328677714ef8c4ddd2dcf4040154fa204d25cbf31cd4ff0f3",
-        "signature": "b209a815904a485328677714ef8c4ddd2dcf4040154fa204d25cbf31cd4ff0f3"
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.full.d.ts": {
+        "version": "2e29c91abb0c3a575ff79670fa315b6c09ac7a57a7b42aa509fa17f0a224968f",
+        "signature": "2e29c91abb0c3a575ff79670fa315b6c09ac7a57a7b42aa509fa17f0a224968f"
       },
       "./node_modules/@types/node/globals.d.ts": {
         "version": "6cf62fbc792aa81fa62f99dab5cc692c5315ecd5da09dd35f1ccc82778c4d5bc",
@@ -346,15 +342,15 @@
         "signature": "71d7739d1b41731142a40773a0bff749868f065dfff2858e4f86c41b1227393c"
       },
       "./src/algoProperties.ts": {
-        "version": "d7a7b3508363e695afd840e89ea6d382f06b1303bc33c6844f951b99f99ab568",
+        "version": "13dfbb4639ac47e6396f5dd7f64a6bf68fe289cfe4bff0c5e63a3ab3f2d09a15",
         "signature": "1519074cb333a73b421f6c21451c319cb02ca1d3cad0a1a6764be4b5590cfb00"
       },
       "./src/merkleTree.ts": {
-        "version": "166cb86987ecfaa0452f060b7b0f6c29ae347dd9f4b13838211baa99f99f2565",
+        "version": "3a7f1f82c41fad3aa24a32a500d478aa5b9cab851a908da914e3a6e90cbd7e4c",
         "signature": "88f9cd003376cc8730fbcf708361b82d9d02536bb772b3e2d163afd49402daa0"
       },
       "./src/transactions.ts": {
-        "version": "588ee869c457efd8b66cb0ca84e05322f8423d4984d9a4cea193a46593c87807",
+        "version": "9e61d98bee80842cacc96a647d133e474ec40839b3bb45f064aaf979e399000d",
         "signature": "dd87e4a2ffd2cfb5fd9280ab8738e7878312ab46e08b0034b77ed4b303295c09"
       },
       "./src/blockTemplate.ts": {
@@ -366,27 +362,27 @@
         "signature": "fe5ac92d59d0fc0ce12792f92330fdefd98f58f27d1b184cacf060413d169683"
       },
       "./src/daemon.ts": {
-        "version": "57a423c530f983ac3a1cd8dab7eb90c80b69e33a798b1bbde2d6c64cb60608f4",
+        "version": "1b2a70826f0ccc2b29e43eef989f20a33df6a0109725a1babc27864d0b1eea42",
         "signature": "861e211e6731fce705c5d54714ae9b0a375327bd03277089f6bb4be24bd97059"
       },
       "./src/varDiff.ts": {
-        "version": "acfa4e9334dcca9b611d760d86ed2b88df70fa65235adbe8a138d76bc372e040",
+        "version": "247887b1ffbdef2f627b7720aeb3c4d934abd53fb9c50da680e76588a2f43e82",
         "signature": "ed66c628575c1a135efbf88f293af0861779c83f30b1faa2276e6e8e1f5484e6"
       },
       "./src/peer.ts": {
-        "version": "7e5603be46270da7623e3e4de63b32ed958c73a9e5b46c6e23553c3c958776cb",
+        "version": "d70b283dd755a34a8f1113582ea75b67a82205a8855299fb2b3d3a9b2bffb50a",
         "signature": "73921eb23c0c6f70d3ad33dd2d59a47b41a08991763f2b467fcc611590c6f716"
       },
       "./src/stratum.ts": {
-        "version": "243a3c717bcc086b5bcfb20836412abf794581ee3d76c985725bdba03011d0e2",
+        "version": "044b5f54f4732c998273cc1bb1af5e829fea11b97453f7596e2dd987d45ea8c0",
         "signature": "6ef277e3987e003a477de2c2667c829626ae3fa74eeff3e0d5eed38260d01678"
       },
       "./src/jobManager.ts": {
-        "version": "c1ec6351805eaaf3e69a95eb43ab970843f6cad73d09e8380fd8e2c92c984633",
-        "signature": "65ff19f3429fdf63ab1967b0a631a9baf13fcecb6edfaa56831a9156796354ef"
+        "version": "16162a424baece2c7c1ad544ebd944b3a25bb2667ecfebfd1746776d6c706588",
+        "signature": "791b4acf0465ba7f740ecbd99fb247166c48ae52ff77dbb26ad69ea1064570bf"
       },
       "./src/pool.ts": {
-        "version": "9840807188ca09678eb666def13a484ff2d4170663a8182341d53fa96f281771",
+        "version": "8fdc36dff6b4db31037b80424d4a39f4e8be4de775f141a5893bf059af92c827",
         "signature": "f3d33498065ad12fbd9bdb93b38332ce98f82f308dd416cb6dacf0f8696887aa"
       },
       "./src/index.ts": {
@@ -404,8 +400,8 @@
     },
     "options": {
       "incremental": true,
-      "target": 99,
-      "module": 99,
+      "target": 6,
+      "module": 1,
       "outDir": "./lib",
       "rootDir": "./src",
       "removeComments": true,
@@ -444,12 +440,6 @@
         "./node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.d.ts": [
-        "./node_modules/@types/node/fs.d.ts",
-        "./node_modules/@types/node/ts3.2/fs.d.ts",
-        "./node_modules/@types/node/util.d.ts",
-        "./node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
         "./node_modules/@types/node/util.d.ts",
@@ -635,7 +625,7 @@
         "./node_modules/@types/node/util.d.ts",
         "./node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.full.d.ts": [
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.full.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
         "./node_modules/@types/node/util.d.ts",
@@ -1178,12 +1168,6 @@
         "./node_modules/@types/node/util.d.ts",
         "./node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.d.ts": [
-        "./node_modules/@types/node/fs.d.ts",
-        "./node_modules/@types/node/ts3.2/fs.d.ts",
-        "./node_modules/@types/node/util.d.ts",
-        "./node_modules/@types/node/ts3.2/util.d.ts"
-      ],
       "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.dom.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
@@ -1364,7 +1348,7 @@
         "./node_modules/@types/node/util.d.ts",
         "./node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.full.d.ts": [
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.full.d.ts": [
         "./node_modules/@types/node/fs.d.ts",
         "./node_modules/@types/node/ts3.2/fs.d.ts",
         "./node_modules/@types/node/util.d.ts",
@@ -1788,7 +1772,6 @@
       "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2017.d.ts",
       "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2018.d.ts",
       "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.d.ts",
       "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.dom.d.ts",
       "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.dom.iterable.d.ts",
       "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.webworker.importscripts.d.ts",
@@ -1819,7 +1802,7 @@
       "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.symbol.d.ts",
       "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.intl.d.ts",
       "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.bigint.d.ts",
-      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.esnext.full.d.ts",
+      "../../../../../../home/ubuntu/.nvm/versions/node/v13.0.1/lib/node_modules/typescript/lib/lib.es2019.full.d.ts",
       "./node_modules/@types/node/globals.d.ts",
       "./node_modules/@types/node/assert.d.ts",
       "./node_modules/@types/node/async_hooks.d.ts",
@@ -1878,10 +1861,10 @@
       "./src/peer.ts",
       "./src/stratum.ts",
       "./src/jobManager.ts",
-      "./src/pool.ts",
       "./src/index.ts",
       "./src/options.ts",
-      "./node_modules/@types/base-x/index.d.ts"
+      "./node_modules/@types/base-x/index.d.ts",
+      "./src/pool.ts"
     ]
   },
   "version": "3.6.4"
