@@ -189,7 +189,19 @@ const poolConfig = {
             "historicalRetention": 43200,
             "hashrateWindow": 300
         }
-    }
+    },
+
+    "payment": {
+        "enabled": true,
+        "paymentInterval": 20,
+        "minimumPayment": 70,
+        "daemon": {
+            "host": "127.0.0.1",
+            "port": 19332,
+            "user": "litecoinrpc",
+            "password": "testnet"
+        }
+    },
 
 };
 
