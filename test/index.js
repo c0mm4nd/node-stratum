@@ -7,7 +7,7 @@ const myCoin = {
 };
 
 
-const createPool = require('..');
+const createPool = require("..");
 const pool = createPool({
     "coin": myCoin,
     "address": "Qbyk864gpbz46XQqgf6DKKqXED9KtfxD2E",
@@ -60,18 +60,18 @@ const pool = createPool({
 });
 
 
-pool.on('share', function(isValidShare, isValidBlock, data){
+pool.on("share", function(isValidShare, isValidBlock, data){
 
     if (isValidBlock)
-        console.log('Block found');
+        console.log("Block found");
     else if (isValidShare)
-        console.log('Valid share submitted');
+        console.log("Valid share submitted");
     else if (data.blockHash)
-        console.log('We thought a block was found but it was rejected by the daemon');
+        console.log("We thought a block was found but it was rejected by the daemon");
     else
-        console.log('Invalid share submitted');
+        console.log("Invalid share submitted");
 
-    console.log('share data: ' + JSON.stringify(data));
+    console.log("share data: " + JSON.stringify(data));
 });
 
 
@@ -81,8 +81,8 @@ pool.on('share', function(isValidShare, isValidBlock, data){
 'logKey':   can be 'system' or 'client' indicating if the error
             was caused by our system or a stratum client
 */
-pool.on('log', function(severity, logText){
-    console.log('[' + severity + ']: ' + logText);
+pool.on("log", function(severity, logText){
+    console.log("[" + severity + "]: " + logText);
 });
 
 pool.start();
