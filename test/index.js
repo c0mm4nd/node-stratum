@@ -2,12 +2,10 @@ const myCoin = {
     "name": "Litecoin",
     "symbol": "LTC",
     "algorithm": "scrypt",
-    "peerMagic": "fbc0b6db",
-    "peerMagicTestnet": "fdd2c8f1"
 };
 
 
-const createPool = require("..");
+const createPool = require("stratum-pool");
 const pool = createPool({
     "coin": myCoin,
     "address": "Qbyk864gpbz46XQqgf6DKKqXED9KtfxD2E",

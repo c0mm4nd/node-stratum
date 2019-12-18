@@ -57,13 +57,6 @@ const myCoin = {
     "nValue": 1024, //optional - defaults to 1024
     "rValue": 1, //optional - defaults to 1
     "txMessages": false, //optional - defaults to false,
-
-    /* Magic value only required for setting up p2p block notifications. It is found in the daemon
-       source code as the pchMessageStart variable.
-       For example, litecoin mainnet magic: http://git.io/Bi8YFw
-       And for litecoin testnet magic: http://git.io/NXBYJA */
-     "peerMagic": "fbc0b6db", //optional
-     "peerMagicTestnet": "fcc1b7dc", //optional
 };
 ```
 
