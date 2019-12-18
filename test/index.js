@@ -50,7 +50,7 @@ const pool = createPool({
         }
     ],
 
-}, function(ip, port , workerName, password, callback){
+}, (ip, port , workerName, password, callback) => {
     console.log("Authorize " + workerName + ":" + password + "@" + ip);
     callback({
         error: null,
