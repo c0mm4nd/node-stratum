@@ -5,7 +5,7 @@ const myCoin = {
 };
 
 
-const createPool = require("stratum-pool");
+const createPool = require("..");
 const pool = createPool({
     "coin": myCoin,
     "address": "Qbyk864gpbz46XQqgf6DKKqXED9KtfxD2E",
@@ -28,7 +28,7 @@ const pool = createPool({
 
     "ports": {
         "3032": {
-            "diff": 1,
+            "diff": 8,
             "varDiff": {
                 "minDiff": 1,
                 "maxDiff": 512,
