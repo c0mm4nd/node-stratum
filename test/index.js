@@ -5,8 +5,8 @@ const myCoin = {
 };
 
 
-const createPool = require("..");
-const pool = createPool({
+const Pool = require("..");
+const pool = new Pool({
     "coin": myCoin,
     "address": "Qbyk864gpbz46XQqgf6DKKqXED9KtfxD2E",
     "rewardRecipients": {},
