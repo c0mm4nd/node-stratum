@@ -13,6 +13,10 @@
         "scrypt"
     ],
     "homepage": "https://github.com/maoxs2/node-stratum",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/maoxs2/ts-x-stratum.git"
+    },
     "bugs": {
         "url": "https://github.com/maoxs2/node-stratum/issues"
     },
@@ -20,9 +24,8 @@
     "author": "Command M",
     "contributors": [],
     "main": "lib/pool.js",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/maoxs2/ts-x-stratum.git"
+    "scripts": {
+        "test": "./node_modules/mocha/bin/mocha"
     },
     "dependencies": {
         "async": "^3.1.0",
@@ -35,6 +38,7 @@
         "node": ">=13"
     },
     "devDependencies": {
-        "eslint": "^6.8.0"
+        "eslint": "^6.8.0",
+        "mocha": "^6.2.2"
     }
 }

@@ -5,7 +5,7 @@ const myCoin = {
 };
 
 
-const Pool = require("..");
+const Pool = require("./lib/pool");
 const pool = new Pool({
     "coin": myCoin,
     "address": "Qbyk864gpbz46XQqgf6DKKqXED9KtfxD2E",

@@ -1,5 +1,7 @@
 # node-stratum
 
+[![Build Status](https://travis-ci.org/maoxs2/node-stratum.svg?branch=master)](https://travis-ci.org/maoxs2/node-stratum)
+
 Designed for one-algorithm bitcoin-fork pool.
 
 High performance Stratum poolserver in Node.js. One instance of this software can startup and manage multiple coin
